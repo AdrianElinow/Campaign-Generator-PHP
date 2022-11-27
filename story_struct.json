@@ -1,52 +1,174 @@
 
 {
-    "POI":[
-        ["Recruit","Passive"],
-        ["Protect","Overt"],
-        ["Liberate","Overt"],
-        ["Escort","Passive"],
+    "POI":{
+        "neutral":[
+            ["Protect","Overt"],
+            ["Liberate","Overt"],
+            ["Escort","Overt"],
 
-        ["Eliminate","Overt"],
-        ["Capture","Overt"],
+            ["Interact","Passive"],
+            ["Recruit","Passive"],
 
-        ["Infiltrate","Covert"],
-        ["Surveil","Covert"],
-        ["Investigate","Covert"]
-    ],
-    "PTY":[
-        ["Recruit","Passive"],
-        ["Protect","Overt"],
-        ["Liberate","Overt"],
-        ["Escort","Passive"],
+            ["Eliminate","Overt"],
+            ["Capture","Overt"],
 
-        ["Eliminate","Overt"],
-        ["Capture","Overt"],
+            ["Infiltrate","Covert"],
+            ["Surveil","Covert"],
+            ["Investigate","Covert"]
+        ],
+        "master":[
+            ["Protect","Overt"],
+            ["Liberate","Overt"],
+            ["Escort","Overt"],
+            
+            ["Interact","Passive"]
+        ],
+        "affiliated":[
+            ["Protect","Overt"],
+            ["Liberate","Overt"],
+            ["Escort","Overt"],
+            
+            ["Interact","Passive"]
+        ],
+        "friendly":[
+            ["Protect","Overt"],
+            ["Liberate","Overt"],
+            ["Escort","Overt"],
+            
+            ["Recruit","Passive"],
+            ["Interact","Passive"]
+        ],
+        "hostile":[
+            ["Eliminate","Overt"],
+            ["Capture","Overt"],
 
-        ["Infiltrate","Covert"],
-        ["Surveil","Covert"],
-        ["Investigate","Covert"]
-    ],
-    "OBJ":[
-        ["Protect","Overt"],
-        ["Secure","Overt"],
-        
-        ["Capture","Overt"],
-        ["Destroy","Overt"],
+            ["Interact","Passive"],
 
-        ["Sabotage","Covert"],
-        ["Surveil","Covert"],
-        ["Investigate","Covert"],
-        ["Interact","Passive"]
-    ],
-    "LOC":[
-        ["Protect","Overt"],
-        ["Fortify","Overt"],
+            ["Infiltrate","Covert"],
+            ["Surveil","Covert"],
+            ["Investigate","Covert"]
+        ]
+    },
+    "PTY":{
+        "neutral":[
+            ["Protect","Overt"],
+            ["Liberate","Overt"],
+            ["Escort","Overt"],
 
-        ["Capture","Overt"],
-        ["Destroy","Overt"],
+            ["Recruit","Passive"],
+            ["Interact","Passive"],
 
-        ["Infiltrate","Covert"],
-        ["Investigate","Covert"],
-        ["Surveil","Covert"]
-    ]
+            ["Eliminate","Overt"],
+            ["Capture","Overt"],
+
+            ["Infiltrate","Covert"],
+            ["Surveil","Covert"],
+            ["Investigate","Covert"]
+        ],
+        "master":[
+            ["Protect","Overt"],
+            ["Liberate","Overt"],
+            ["Escort","Overt"],
+            
+            ["Interact","Passive"]
+        ],
+        "affiliated":[
+            ["Protect","Overt"],
+            ["Liberate","Overt"],
+            ["Escort","Overt"],
+            
+            ["Interact","Passive"]
+        ],
+        "friendly":[
+            ["Protect","Overt"],
+            ["Liberate","Overt"],
+            ["Escort","Overt"],
+            
+            ["Recruit","Passive"],
+            ["Interact","Passive"]
+        ],
+        "hostile":[
+            ["Eliminate","Overt"],
+            ["Capture","Overt"],
+
+            ["Infiltrate","Covert"],
+            ["Surveil","Covert"],
+            ["Investigate","Covert"]
+        ]
+    },
+    "OBJ":{
+        "neutral":[
+            ["Protect","Overt"],
+            ["Secure","Overt"],
+
+            ["Interact","Passive"],
+            
+            ["Capture","Overt"],
+            ["Destroy","Overt"],
+
+            ["Sabotage","Covert"],
+            ["Surveil","Covert"],
+            ["Investigate","Covert"]
+        ],
+        "master":[
+            ["Protect","Overt"],
+            ["Secure","Overt"],
+
+            ["Interact","Passive"]
+        ],
+        "affiliated":[
+            ["Protect","Overt"],
+            ["Secure","Overt"],
+
+            ["Interact","Passive"]
+        ],
+        "friendly":[
+            ["Protect","Overt"],
+            ["Secure","Overt"],
+
+            ["Interact","Passive"]
+        ],
+        "hostile":[
+            ["Capture","Overt"],
+            ["Destroy","Overt"],
+
+            ["Sabotage","Covert"],
+            ["Surveil","Covert"],
+            ["Investigate","Covert"]
+        ]
+    },
+    "LOC":{
+        "neutral":[
+            ["Protect","Overt"],
+            ["Fortify","Overt"],
+
+            ["Capture","Overt"],
+            ["Destroy","Overt"],
+
+            ["Infiltrate","Covert"],
+            ["Investigate","Covert"],
+            ["Surveil","Covert"]
+        ],
+        "master":[
+            ["Protect","Overt"],
+            ["Fortify","Overt"]
+        ],
+        "affiliated":[
+            ["Protect","Overt"],
+            ["Fortify","Overt"]
+        ],
+        "friendly":[
+            ["Protect","Overt"],
+            ["Fortify","Overt"]
+        ],
+        "hostile":[
+            ["Capture","Overt"],
+            ["Destroy","Overt"],
+
+            ["Infiltrate","Covert"],
+            ["Investigate","Covert"],
+            ["Surveil","Covert"]
+        ]
+    }
+
 }

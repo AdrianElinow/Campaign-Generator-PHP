@@ -1,0 +1,301 @@
+{
+    "FAC": {
+        "ctscorch": {
+            "id": "ctscorch",
+            "nodetype": "FAC",
+            "references": {
+                "name": "Crisis Troop Scorch"
+            },
+            "attributes": {
+                "capabilitiy_points": 400
+            },
+            "relations": {
+                "FAC": {},
+                "POI": {},
+                "PTY": {},
+                "INV": {},
+                "PPT": {
+                    "LOC": {},
+                    "OBJ": {}
+                }
+            },
+            "checks": {
+                "check1": true
+            },
+            "abilities": {},
+            "policies": {
+                "Economy": [
+                    "Free-Capitalist",
+                    0.812
+                ],
+                "Liberty": [
+                    "Libertarian",
+                    0.508
+                ],
+                "Culture": [
+                    "Conservative",
+                    0.626
+                ],
+                "Diplomacy": [
+                    "Patriotic",
+                    0.673
+                ],
+                "Militancy": [
+                    "Strategic",
+                    0.756
+                ],
+                "Diversity": [
+                    "Heterogeneous",
+                    0.768
+                ],
+                "Secularity": [
+                    "Religious",
+                    0.874
+                ],
+                "Justice": [
+                    "Retributionist",
+                    0.702
+                ],
+                "Natural-Balance": [
+                    "Productivist",
+                    0.264
+                ],
+                "Government": [
+                    "Republican",
+                    0.483
+                ]
+            }
+        },
+        "aayari": {
+            "id": "aayari",
+            "nodetype": "FAC",
+            "references": {
+                "name": "Aayari Network"
+            },
+            "attributes": {
+                "capabilitiy_points": 400
+            },
+            "relations": {
+                "FAC": {},
+                "POI": {},
+                "PTY": {},
+                "INV": {},
+                "PPT": {
+                    "LOC": {},
+                    "OBJ": {}
+                }
+            },
+            "checks": {
+                "check1": true
+            },
+            "abilities": {},
+            "policies": {
+                "Economy": [
+                    "Capitalist",
+                    0.437
+                ],
+                "Liberty": [
+                    "Authoritarian",
+                    0.978
+                ],
+                "Culture": [
+                    "Traditionalist",
+                    0.946
+                ],
+                "Diplomacy": [
+                    "Nationalist",
+                    0.673
+                ],
+                "Militancy": [
+                    "Militarist",
+                    0.756
+                ],
+                "Diversity": [
+                    "Preservationist",
+                    0.523
+                ],
+                "Secularity": [
+                    "Devout",
+                    0.974
+                ],
+                "Justice": [
+                    "Retributionist",
+                    0.702
+                ],
+                "Natural-Balance": [
+                    "Productivist",
+                    0.764
+                ],
+                "Government": [
+                    "Autocratic",
+                    0.783
+                ]
+            }
+        }
+    },
+    "POI": {},
+    "PTY": {},
+    "OBJ": {},
+    "LOC": {
+        "pariah": {
+            "id": "pariah",
+            "nodetype": "LOC",
+            "references": {
+                "name": "Pariah Compound",
+                "master":"aayari"
+            },
+            "attributes": {},
+            "relations": {
+                "FAC": {
+                    "aayari":{
+                        "nodetype":"FAC",
+                        "policy":{},
+                        "reputation":[0,0],
+                        "interractions":1,
+                        "disposition":"master"
+                    }
+                },
+                "POI": {},
+                "PTY": {},
+                "INV": {},
+                "PPT": {
+                    "LOC": {},
+                    "OBJ": {}
+                }
+            },
+            "checks": {
+                "has_master":true
+            },
+            "abilities": {},
+            "policies": {}
+        },
+        "msrc211": {
+            "id": "msrc211",
+            "nodetype": "LOC",
+            "references": {
+                "name": "MSR C-211",
+                "master":"ctsorch"
+            },
+            "attributes": {},
+            "relations": {
+                "FAC": {
+                    "ctscorch":{
+                        "nodetype":"FAC",
+                        "policy":{},
+                        "reputation":[0,0],
+                        "interractions":1,
+                        "disposition":"master"
+                    }
+                },
+                "POI": {},
+                "PTY": {},
+                "INV": {},
+                "PPT": {
+                    "LOC": {},
+                    "OBJ": {}
+                }
+            },
+            "checks": {
+                "has_master":true
+            },
+            "abilities": {},
+            "policies": {}
+        },
+        "massif": {
+            "id": "massif",
+            "nodetype": "LOC",
+            "references": {
+                "name": "Massif Crossing",
+                "master":"aayari"
+            },
+            "attributes": {},
+            "relations": {
+                "FAC": {
+                    "aayari":{
+                        "nodetype":"FAC",
+                        "policy":{},
+                        "reputation":[0,0],
+                        "interractions":1,
+                        "disposition":"master"
+                    }
+                },
+                "POI": {},
+                "PTY": {},
+                "INV": {},
+                "PPT": {
+                    "LOC": {},
+                    "OBJ": {}
+                }
+            },
+            "checks": {
+                "has_master":true
+            },
+            "abilities": {},
+            "policies": {}
+        },
+        "dirj": {
+            "id": "dirj",
+            "nodetype": "LOC",
+            "references": {
+                "name": "Dirj Sprawl",
+                "master":"aayari"
+            },
+            "attributes": {},
+            "relations": {
+                "FAC": {
+                    "aayari":{
+                        "nodetype":"FAC",
+                        "policy":{},
+                        "reputation":[0,0],
+                        "interractions":1,
+                        "disposition":"master"
+                    }
+                },
+                "POI": {},
+                "PTY": {},
+                "INV": {},
+                "PPT": {
+                    "LOC": {},
+                    "OBJ": {}
+                }
+            },
+            "checks": {
+                "has_master":true
+            },
+            "abilities": {},
+            "policies": {}
+        },
+        "borderglint": {
+            "id": "borderglint",
+            "nodetype": "LOC",
+            "references": {
+                "name": "Border Glint",
+                "master":"aayari"
+            },
+            "attributes": {},
+            "relations": {
+                "FAC": {
+                    "aayari":{
+                        "nodetype":"FAC",
+                        "policy":{},
+                        "reputation":[0,0],
+                        "interractions":1,
+                        "disposition":"master"
+                    }
+                },
+                "POI": {},
+                "PTY": {},
+                "INV": {},
+                "PPT": {
+                    "LOC": {},
+                    "OBJ": {}
+                }
+            },
+            "checks": {
+                "has_master":true
+            },
+            "abilities": {},
+            "policies": {}
+        }
+    }
+}

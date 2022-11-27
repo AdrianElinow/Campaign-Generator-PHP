@@ -29,12 +29,12 @@
                                 "Government": "Agreement"
                             }
                         ],
-                        "Reputation": [
+                        "reputation": [
                             0,
                             0
                         ],
-                        "Interractions": 1,
-                        "Disposition": "Neutral"
+                        "interractions": 1,
+                        "disposition": "Neutral"
                     },
                     "gamma": {
                         "nodetype": "POI",
@@ -53,12 +53,12 @@
                                 "Government": "Civil"
                             }
                         ],
-                        "Reputation": [
+                        "reputation": [
                             0,
                             0
                         ],
-                        "Interractions": 1,
-                        "Disposition": "Neutral"
+                        "interractions": 1,
+                        "disposition": "Neutral"
                     }
                 },
                 "PTY": {
@@ -157,12 +157,12 @@
                                 "Government": "Civil"
                             }
                         ],
-                        "Reputation": [
+                        "reputation": [
                             0,
                             0
                         ],
-                        "Interractions": 1,
-                        "Disposition": "Neutral"
+                        "interractions": 1,
+                        "disposition": "Neutral"
                     }
                 },
                 "POI": {
@@ -183,12 +183,12 @@
                                 "Government": "Civil"
                             }
                         ],
-                        "Reputation": [
+                        "reputation": [
                             0,
                             0
                         ],
-                        "Interractions": 1,
-                        "Disposition": "Neutral"
+                        "interractions": 1,
+                        "disposition": "Neutral"
                     }
                 },
                 "PTY": {},
@@ -278,12 +278,12 @@
                                 "Government": "Agreement"
                             }
                         ],
-                        "Reputation": [
+                        "reputation": [
                             0,
                             0
                         ],
-                        "Interractions": 1,
-                        "Disposition": "Neutral"
+                        "interractions": 1,
+                        "disposition": "Neutral"
                     }
                 },
                 "POI": {
@@ -304,12 +304,12 @@
                                 "Government": "Civil"
                             }
                         ],
-                        "Reputation": [
+                        "reputation": [
                             0,
                             0
                         ],
-                        "Interractions": 1,
-                        "Disposition": "Neutral"
+                        "interractions": 1,
+                        "disposition": "Neutral"
                     }
                 },
                 "PTY": {},
@@ -375,7 +375,7 @@
             "attributes": {},
             "relations": {
                 "INV":{},
-                "owners": [
+                "masters": [
                     "sigma"
                 ],
                 "occupants": [
@@ -394,7 +394,7 @@
             "nodetype": "LOC",
             "attributes": {},
             "relations": {
-                "owners": [],
+                "masters": [],
                 "occupants": [
                     "gamma"
                 ]
