@@ -35,13 +35,13 @@
 
     class SimulaeNode{
 
-        protected $id;
-        protected $nodetype;
-        protected $references;
-        protected $attributes;
-        protected $relations;
-        protected $checks;
-        protected $abilities;
+        public $id;
+        public $nodetype;
+        public $references;
+        public $attributes;
+        public $relations;
+        public $checks;
+        public $abilities;
 
         function __construct(   $id,
                                 $nodetype,
@@ -476,7 +476,8 @@
 
             $save_file = fopen("test_save.json","w");
 
-            fwrite($save_file, json_encode($this->state->get_nodes(), JSON_PRETTY_PRINT) );
+            fwrite($save_file, json_encode($this->state->get_nodes(), JSON_PRETTY_PRINT
+            ) );
 
             fclose($save_file);
 
