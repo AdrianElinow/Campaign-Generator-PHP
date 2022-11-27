@@ -1,0 +1,148 @@
+{
+    "FAC": {
+        "sigma": {
+            "policies": {
+                "Economy": [
+                    "Indifferent",
+                    0.425
+                ],
+                "Liberty": [
+                    "Libertarian",
+                    0.061
+                ],
+                "Culture": [
+                    "Accelerationist",
+                    0.999
+                ],
+                "Diplomacy": [
+                    "Nationalist",
+                    0.673
+                ],
+                "Militancy": [
+                    "Indifferent",
+                    0.756
+                ],
+                "Diversity": [
+                    "Heterogeneous",
+                    0.768
+                ],
+                "Secularity": [
+                    "Indifferent",
+                    0.574
+                ],
+                "Justice": [
+                    "Indifferent",
+                    0.902
+                ],
+                "Natural-Balance": [
+                    "Naturalist",
+                    0.061
+                ],
+                "Government": [
+                    "Republican",
+                    0.36
+                ]
+            }
+        }
+    },
+    "POI": {
+        "gamma": {
+            "policies": {
+                "Economy": [
+                    "Indifferent",
+                    0.161
+                ],
+                "Liberty": [
+                    "Libertarian",
+                    0.556
+                ],
+                "Culture": [
+                    "Indifferent",
+                    0.213
+                ],
+                "Diplomacy": [
+                    "Patriotic",
+                    0.388
+                ],
+                "Militancy": [
+                    "Indifferent",
+                    0.046
+                ],
+                "Diversity": [
+                    "Indifferent",
+                    0.125
+                ],
+                "Secularity": [
+                    "Religious",
+                    0.547
+                ],
+                "Justice": [
+                    "Indifferent",
+                    0.548
+                ],
+                "Natural-Balance": [
+                    "Industrialist",
+                    0.864
+                ],
+                "Government": [
+                    "Democratic",
+                    0.933
+                ]
+            }
+        },
+        "omega": {
+            "policies": {
+                "Economy": [
+                    "Indifferent",
+                    0.425
+                ],
+                "Liberty": [
+                    "Libertarian",
+                    0.061
+                ],
+                "Culture": [
+                    "Accelerationist",
+                    0.999
+                ],
+                "Diplomacy": [
+                    "Nationalist",
+                    0.673
+                ],
+                "Militancy": [
+                    "Indifferent",
+                    0.756
+                ],
+                "Diversity": [
+                    "Heterogeneous",
+                    0.768
+                ],
+                "Secularity": [
+                    "Indifferent",
+                    0.574
+                ],
+                "Justice": [
+                    "Indifferent",
+                    0.902
+                ],
+                "Natural-Balance": [
+                    "Naturalist",
+                    0.061
+                ],
+                "Government": [
+                    "Republican",
+                    0.36
+                ]
+            }
+        }
+    },
+    "PTY": [],
+    "OBJ": [],
+    "LOC": {
+        "safehouse": {
+            "policies": []
+        },
+        "hideout": {
+            "policies": []
+        }
+    }
+}

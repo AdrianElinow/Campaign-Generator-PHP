@@ -1,6 +1,38 @@
 
 <?php
 
+    class SimulaeState{
+
+        public $FAC;
+        public $POI;
+        public $PTY;
+        public $OBJ;
+        public $LOC;
+
+        function __construct( $FAC, $POI, $PTY, $OBJ, $LOC ){
+
+            $this->FAC = $FAC;
+            $this->POI = $POI;
+            $this->PTY = $PTY;
+            $this->OBJ = $OBJ;
+            $this->LOC = $LOC;
+
+        }
+
+        function get_nodes(){
+
+            return [    "FAC"=>$this->FAC,
+                        "POI"=>$this->POI,
+                        "PTY"=>$this->PTY,
+                        "OBJ"=>$this->OBJ,
+                        "LOC"=>$this->LOC
+                    ];
+
+        }
+
+    }
+
+
     class SimulaeNode{
 
         protected $id;
@@ -35,6 +67,22 @@
         function summary(){
             return strval($this->nodetype) . " " . strval($this->id);
         }
+        function get_all(){
+            $totality = [
+                "id"            => $this->id,
+                "nodetype"      => $this->nodetype,
+                "references"    => $this->references,
+                "attributes"    => $this->attributes,
+                "relations"     => $this->relations,
+                "checks"        => $this->checks,
+                "policies"      => $this->policies,
+                "abilities"     => $this->abilities             
+
+            ];
+
+            return $totality;
+
+        }
 
         function has_membership(){
             throw new Exception("<function> not yet implemented!");
@@ -62,7 +110,7 @@
             return $this->references;
         }
         function get_reference( string $reference ){
-            return array_key_exists($attribute, $this->attributes) ? $this->attributes[$attribute] : null;
+            return array_key_exists($reference, $this->references) ? $this->references[$reference] : null;
         }
         function delete_reference( string $key ){
             unset($this->references[$key]);
@@ -225,49 +273,47 @@
             $this->madlibs = $madlibs;
 
             # initialize minimum values
-            $this->state = new SimulaeNode(     "state",            # id
-                                                "state",            # nodetype
-                                                [],                 #references
-                                                [],                 #attributes
-                                                [                   # relations
-                                                    "FAC" => [],
-                                                    "PTY" => [],
-                                                    "POI" => [],
-                                                    "OBJ" => [],
-                                                    "LOC" => []
-                                                ],
-                                                [],                 # checks
-                                                [],                 # policies
-                                                []                  # abilities
-                                            );
+            $this->state = new SimulaeState( [], [], [], [], [] );
 
             if($save_state == null){
                 throw new Exception('No save state file designated!!');
             }
 
-            foreach( $save_state["relations"] as $nodetype => $nodes ){
-                foreach( $nodes as $node_id => $json_node ){
+            foreach( $save_state as $nodetype => $nodes ){
+                foreach( $nodes as $node_id => $json_node){
                     $this->add_node( $node_id, $nodetype, $json_node );
                 }
-
             }
 
 
         }
 
         function add_node( $node_id, $nodetype, $json_node ){
-            $this->state->set_relation(
-                $node_id, 
-                $nodetype, 
-                new SimulaeNode(   $node_id,
-                   $nodetype,
-                   $json_node['references'],
-                   $json_node['attributes'],
-                   $json_node['relations'],
-                   $json_node['checks'],
-                   $json_node['policies'],
-                   $json_node['abilities'] 
-                ));
+
+            $node = new SimulaeNode(   
+                        $node_id,
+                        $nodetype,
+                        $json_node['references'],
+                        $json_node['attributes'],
+                        $json_node['relations'],
+                        $json_node['checks'],
+                        $json_node['policies'],
+                        $json_node['abilities'] 
+                    );
+
+            if( $nodetype == "FAC" ){
+                $this->state->FAC[$node_id] = $node; 
+            }elseif ($nodetype == "POI") {
+                $this->state->POI[$node_id] = $node; 
+            }elseif ($nodetype == "PTY") {
+                $this->state->PTY[$node_id] = $node; 
+            }elseif ($nodetype == "OBJ") {
+                $this->state->OBJ[$node_id] = $node; 
+            }elseif ($nodetype == "LOC") {
+                $this->state->LOC[$node_id] = $node; 
+            }else{
+                throw new Exception('state add_node() Invalid node type : '.$nodetype."\n");
+            }
         }
 
 
@@ -276,11 +322,10 @@
             throw new Exception("<function> not yet implemented!");
         }
 
+
         function generate_actions( int $num_options, 
                                     array $recent_nodes = null, 
                                     SimulaeNode $actor_node = null ){
-
-            echo "generate_actions()\n";
 
             $options = [];
 
@@ -289,26 +334,26 @@
                 # randomly determine new nodetype (from pools with more than 1
                 # element)
                 $nodetype = random_choice( array_filter(
-                    array_keys( $this->state->get_relations() ),
+                    ["POI","PTY","OBJ","LOC"],
                     function($key) {
-                        return count( $this->state->get_relations()[$key] )>=1;
+                        return count( $this->state->get_nodes()[$key] )>=1;
                     }
                 ));
 
                 # randomly pick from available nodes
                 $chosen_node = random_choice( 
-                    array_values($this->state->get_relations()[$nodetype]) );
+                    array_values($this->state->get_nodes()[$nodetype]) );
 
                 # select available action based on node type
                 $action = random_choice( $this->story_struct[$nodetype] );
 
-                array_push($options, $action[0], $chosen_node);            
+                array_push($options, [$action[0], $chosen_node] );            
 
             }
 
             return $options;
-
         }
+
 
         function generate_event(){
             /* Selects a node as event basis, then generates an event based on 
@@ -318,13 +363,47 @@
             throw new Exception("generate_event() not yet implemented!");
         }
 
-        function select_action( $options ){
+        function select_action( array $options, bool $random_opt = false ){
             /*  To add more interractivity and user-control this function will 
             give several available options to allow the player to 'control' 
             their actions and interract with other nodes in a manner of their 
             choice.
             */
-            throw new Exception("select_action() not yet implemented!");
+            #throw new Exception("select_action() not yet implemented!");
+
+            $i = 1;
+            foreach( $options as list($action, $node) ){
+
+                echo "(".$i.")". $action . " " . $node->summary() . "\n";
+                $i+=1;
+
+            }
+            if($random_opt){
+                echo "(".$i.") random\n";
+            }
+
+            $choice = null;
+
+            while( is_null($choice) ){
+
+                $choice = readline("choice >");
+
+                if( in_array($choice, ["q","quit","exit","Quit"]) ){
+                    $this->save();
+                    exit;
+                }
+
+                $index = intval($choice)-1;
+
+                if( $index > 0 and $index <= count($options) ){
+                    return $options[$index];
+                }elseif ( $index == count($options) and $random_opt ) {
+                    return random_choice($options);
+                }
+
+                $choice = null;
+
+            }
         }
 
         function user_choice_array(){
@@ -344,10 +423,10 @@
         function display_nodes_terminal(){
             # display in-play nodes to terminal output
 
-            echo "Nodes:";
-            foreach( $this->state->get_relations() as $nodetype => $nodes ){
+            echo "Nodes:\n";
+            foreach( $this->state->get_nodes() as $nodetype => $nodes ){
                 foreach( $nodes as $node_id => $node ){
-                    echo $node->summary() . "\n";
+                    echo "\t" . $node->summary() . "\n";
                 }
             }
 
@@ -368,7 +447,7 @@
                 /*  generate event ?
                         if event occurs, provide extra action options
                 */
-                echo "\t event generation \n" ;
+                echo "\t< event generation >\n" ;
 
                 
                 # generate action options -> user selection
@@ -376,21 +455,30 @@
 
                 $selected_action = $this->select_action( $action_options );
 
+                echo "chosen: ".$selected_action[0]." ".$selected_action[1]->summary()."\n";
+
                 # Handle action outcome 
 
 
                 $cmd = readline("\ncontinue [enter] / [q]uit ?> ");
                 if($cmd == "q" or $cmd == "quit")
-                    exit;
-
+                    break;
 
             }
-
         }
+
 
         function save(){
 
             echo "save() executing...";
+
+            echo "save() function is not conservative! Data will be lost in the save file";
+
+            $save_file = fopen("test_save.json","w");
+
+            fwrite($save_file, json_encode($this->state->get_nodes(), JSON_PRETTY_PRINT) );
+
+            fclose($save_file);
 
         }
 
@@ -416,6 +504,7 @@
 
         $ngin = new NGINPHP( $action_struct, $madlibs, $save_file );
 
+        readline("start?\n");
         $ngin->start();
 
         $ngin->save();
