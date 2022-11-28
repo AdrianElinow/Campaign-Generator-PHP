@@ -22,7 +22,6 @@
             "checks": {
                 "check1": true
             },
-            "abilities": [],
             "policies": {
                 "Economy": [
                     "Free-Capitalist",
@@ -56,7 +55,7 @@
                     "Retributionist",
                     0.702
                 ],
-                "Natural-Balance": [
+                "Naturalism": [
                     "Productivist",
                     0.264
                 ],
@@ -64,7 +63,8 @@
                     "Republican",
                     0.483
                 ]
-            }
+            },
+            "abilities": []
         },
         "aayari": {
             "id": "aayari",
@@ -112,7 +112,7 @@
                                 "Agreement",
                                 0
                             ],
-                            "Natural-Balance": [
+                            "Naturalism": [
                                 "Agreement",
                                 0
                             ],
@@ -140,7 +140,6 @@
             "checks": {
                 "check1": true
             },
-            "abilities": [],
             "policies": {
                 "Economy": [
                     "Capitalist",
@@ -174,7 +173,7 @@
                     "Retributionist",
                     0.702
                 ],
-                "Natural-Balance": [
+                "Naturalism": [
                     "Productivist",
                     0.764
                 ],
@@ -182,140 +181,14 @@
                     "Autocratic",
                     0.783
                 ]
-            }
+            },
+            "abilities": []
         }
     },
     "POI": [],
     "PTY": [],
     "OBJ": [],
     "LOC": {
-        "pariah": {
-            "id": "pariah",
-            "nodetype": "LOC",
-            "references": {
-                "name": "Pariah Compound",
-                "master": "aayari"
-            },
-            "attributes": [],
-            "relations": {
-                "FAC": {
-                    "aayari": {
-                        "nodetype": "FAC",
-                        "policy": [],
-                        "reputation": [
-                            0,
-                            0
-                        ],
-                        "interractions": 1,
-                        "disposition": "master"
-                    },
-                    "ctscorch": {
-                        "nodetype": "FAC",
-                        "policy": {
-                            "Economy": [
-                                "Civil",
-                                1
-                            ],
-                            "Liberty": [
-                                "Opposition",
-                                3
-                            ],
-                            "Culture": [
-                                "Civil",
-                                1
-                            ],
-                            "Diplomacy": [
-                                "Civil",
-                                1
-                            ],
-                            "Militancy": [
-                                "Civil",
-                                1
-                            ],
-                            "Diversity": [
-                                "Contentious",
-                                2
-                            ],
-                            "Secularity": [
-                                "Civil",
-                                1
-                            ],
-                            "Justice": [
-                                "Agreement",
-                                0
-                            ],
-                            "Natural-Balance": [
-                                "Agreement",
-                                0
-                            ],
-                            "Government": [
-                                "Civil",
-                                1
-                            ]
-                        },
-                        "reputation": [
-                            0,
-                            0
-                        ],
-                        "interractions": 1,
-                        "disposition": "hostile"
-                    }
-                },
-                "POI": [],
-                "PTY": [],
-                "INV": [],
-                "PPT": {
-                    "LOC": [],
-                    "OBJ": []
-                }
-            },
-            "checks": {
-                "has_master": true
-            },
-            "abilities": [],
-            "policies": {
-                "Economy": [
-                    "Capitalist",
-                    0.437
-                ],
-                "Liberty": [
-                    "Authoritarian",
-                    0.978
-                ],
-                "Culture": [
-                    "Traditionalist",
-                    0.946
-                ],
-                "Diplomacy": [
-                    "Nationalist",
-                    0.673
-                ],
-                "Militancy": [
-                    "Militarist",
-                    0.756
-                ],
-                "Diversity": [
-                    "Preservationist",
-                    0.523
-                ],
-                "Secularity": [
-                    "Devout",
-                    0.974
-                ],
-                "Justice": [
-                    "Retributionist",
-                    0.702
-                ],
-                "Natural-Balance": [
-                    "Productivist",
-                    0.764
-                ],
-                "Government": [
-                    "Autocratic",
-                    0.783
-                ]
-            }
-        },
         "msrc211": {
             "id": "msrc211",
             "nodetype": "LOC",
@@ -323,7 +196,9 @@
                 "name": "MSR C-211",
                 "master": "ctsorch"
             },
-            "attributes": [],
+            "attributes": {
+                "defense": 1
+            },
             "relations": {
                 "FAC": {
                     "ctscorch": {
@@ -348,135 +223,8 @@
             "checks": {
                 "has_master": true
             },
-            "abilities": [],
-            "policies": []
-        },
-        "massif": {
-            "id": "massif",
-            "nodetype": "LOC",
-            "references": {
-                "name": "Massif Crossing",
-                "master": "aayari"
-            },
-            "attributes": [],
-            "relations": {
-                "FAC": {
-                    "aayari": {
-                        "nodetype": "FAC",
-                        "policy": [],
-                        "reputation": [
-                            0,
-                            0
-                        ],
-                        "interractions": 1,
-                        "disposition": "master"
-                    },
-                    "ctscorch": {
-                        "nodetype": "FAC",
-                        "policy": {
-                            "Economy": [
-                                "Civil",
-                                1
-                            ],
-                            "Liberty": [
-                                "Opposition",
-                                3
-                            ],
-                            "Culture": [
-                                "Civil",
-                                1
-                            ],
-                            "Diplomacy": [
-                                "Civil",
-                                1
-                            ],
-                            "Militancy": [
-                                "Civil",
-                                1
-                            ],
-                            "Diversity": [
-                                "Contentious",
-                                2
-                            ],
-                            "Secularity": [
-                                "Civil",
-                                1
-                            ],
-                            "Justice": [
-                                "Agreement",
-                                0
-                            ],
-                            "Natural-Balance": [
-                                "Agreement",
-                                0
-                            ],
-                            "Government": [
-                                "Civil",
-                                1
-                            ]
-                        },
-                        "reputation": [
-                            0,
-                            0
-                        ],
-                        "interractions": 1,
-                        "disposition": "hostile"
-                    }
-                },
-                "POI": [],
-                "PTY": [],
-                "INV": [],
-                "PPT": {
-                    "LOC": [],
-                    "OBJ": []
-                }
-            },
-            "checks": {
-                "has_master": true
-            },
-            "abilities": [],
-            "policies": {
-                "Economy": [
-                    "Capitalist",
-                    0.437
-                ],
-                "Liberty": [
-                    "Authoritarian",
-                    0.978
-                ],
-                "Culture": [
-                    "Traditionalist",
-                    0.946
-                ],
-                "Diplomacy": [
-                    "Nationalist",
-                    0.673
-                ],
-                "Militancy": [
-                    "Militarist",
-                    0.756
-                ],
-                "Diversity": [
-                    "Preservationist",
-                    0.523
-                ],
-                "Secularity": [
-                    "Devout",
-                    0.974
-                ],
-                "Justice": [
-                    "Retributionist",
-                    0.702
-                ],
-                "Natural-Balance": [
-                    "Productivist",
-                    0.764
-                ],
-                "Government": [
-                    "Autocratic",
-                    0.783
-                ]
-            }
+            "policies": [],
+            "abilities": []
         },
         "dirj": {
             "id": "dirj",
@@ -485,7 +233,9 @@
                 "name": "Dirj Sprawl",
                 "master": "aayari"
             },
-            "attributes": [],
+            "attributes": {
+                "defense": 1
+            },
             "relations": {
                 "FAC": {
                     "aayari": {
@@ -533,7 +283,7 @@
                                 "Agreement",
                                 0
                             ],
-                            "Natural-Balance": [
+                            "Naturalism": [
                                 "Agreement",
                                 0
                             ],
@@ -561,7 +311,6 @@
             "checks": {
                 "has_master": true
             },
-            "abilities": [],
             "policies": {
                 "Economy": [
                     "Capitalist",
@@ -595,7 +344,7 @@
                     "Retributionist",
                     0.702
                 ],
-                "Natural-Balance": [
+                "Naturalism": [
                     "Productivist",
                     0.764
                 ],
@@ -603,134 +352,8 @@
                     "Autocratic",
                     0.783
                 ]
-            }
-        },
-        "borderglint": {
-            "id": "borderglint",
-            "nodetype": "LOC",
-            "references": {
-                "name": "Border Glint",
-                "master": "aayari"
             },
-            "attributes": [],
-            "relations": {
-                "FAC": {
-                    "aayari": {
-                        "nodetype": "FAC",
-                        "policy": [],
-                        "reputation": [
-                            0,
-                            0
-                        ],
-                        "interractions": 1,
-                        "disposition": "master"
-                    },
-                    "ctscorch": {
-                        "nodetype": "FAC",
-                        "policy": {
-                            "Economy": [
-                                "Civil",
-                                1
-                            ],
-                            "Liberty": [
-                                "Opposition",
-                                3
-                            ],
-                            "Culture": [
-                                "Civil",
-                                1
-                            ],
-                            "Diplomacy": [
-                                "Civil",
-                                1
-                            ],
-                            "Militancy": [
-                                "Civil",
-                                1
-                            ],
-                            "Diversity": [
-                                "Contentious",
-                                2
-                            ],
-                            "Secularity": [
-                                "Civil",
-                                1
-                            ],
-                            "Justice": [
-                                "Agreement",
-                                0
-                            ],
-                            "Natural-Balance": [
-                                "Agreement",
-                                0
-                            ],
-                            "Government": [
-                                "Civil",
-                                1
-                            ]
-                        },
-                        "reputation": [
-                            0,
-                            0
-                        ],
-                        "interractions": 1,
-                        "disposition": "hostile"
-                    }
-                },
-                "POI": [],
-                "PTY": [],
-                "INV": [],
-                "PPT": {
-                    "LOC": [],
-                    "OBJ": []
-                }
-            },
-            "checks": {
-                "has_master": true
-            },
-            "abilities": [],
-            "policies": {
-                "Economy": [
-                    "Capitalist",
-                    0.437
-                ],
-                "Liberty": [
-                    "Authoritarian",
-                    0.978
-                ],
-                "Culture": [
-                    "Traditionalist",
-                    0.946
-                ],
-                "Diplomacy": [
-                    "Nationalist",
-                    0.673
-                ],
-                "Militancy": [
-                    "Militarist",
-                    0.756
-                ],
-                "Diversity": [
-                    "Preservationist",
-                    0.523
-                ],
-                "Secularity": [
-                    "Devout",
-                    0.974
-                ],
-                "Justice": [
-                    "Retributionist",
-                    0.702
-                ],
-                "Natural-Balance": [
-                    "Productivist",
-                    0.764
-                ],
-                "Government": [
-                    "Autocratic",
-                    0.783
-                ]
-            }
+            "abilities": []
         }
     }
 }

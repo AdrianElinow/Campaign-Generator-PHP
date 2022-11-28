@@ -56,7 +56,7 @@
                     "Retributionist",
                     0.702
                 ],
-                "Natural-Balance": [
+                "Naturalism": [
                     "Productivist",
                     0.264
                 ],
@@ -122,7 +122,7 @@
                     "Retributionist",
                     0.702
                 ],
-                "Natural-Balance": [
+                "Naturalism": [
                     "Productivist",
                     0.764
                 ],
@@ -144,7 +144,9 @@
                 "name": "Pariah Compound",
                 "master":"aayari"
             },
-            "attributes": {},
+            "attributes": {
+                "defense":1
+            },
             "relations": {
                 "FAC": {
                     "aayari":{
@@ -176,7 +178,9 @@
                 "name": "MSR C-211",
                 "master":"ctsorch"
             },
-            "attributes": {},
+            "attributes": {
+                "defense":1
+            },
             "relations": {
                 "FAC": {
                     "ctscorch":{
@@ -208,7 +212,9 @@
                 "name": "Massif Crossing",
                 "master":"aayari"
             },
-            "attributes": {},
+            "attributes": {
+                "defense":1
+            },
             "relations": {
                 "FAC": {
                     "aayari":{
@@ -240,7 +246,9 @@
                 "name": "Dirj Sprawl",
                 "master":"aayari"
             },
-            "attributes": {},
+            "attributes": {
+                "defense":1
+            },
             "relations": {
                 "FAC": {
                     "aayari":{
@@ -272,7 +280,9 @@
                 "name": "Border Glint",
                 "master":"aayari"
             },
-            "attributes": {},
+            "attributes": {
+                "defense":1
+            },
             "relations": {
                 "FAC": {
                     "aayari":{

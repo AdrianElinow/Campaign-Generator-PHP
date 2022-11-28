@@ -104,6 +104,7 @@ class SimulaeNode{
     public $attributes;
     public $relations;
     public $checks;
+    public $policies;
     public $abilities;
 
     function __construct(   $id,
@@ -155,6 +156,7 @@ class SimulaeNode{
 
     }
 
+
     ### Getter/Setters ###
 
     function get_id(){
@@ -200,6 +202,7 @@ class SimulaeNode{
         $this->attributes[$key] = $value;
     }
 
+
     /* Relations : associative array functions 
 
         Structure
@@ -215,6 +218,8 @@ class SimulaeNode{
     function get_relations(){
         return $this->relations;
     }
+
+
     function get_relation( string $key, string $key_type ){
         if($this->id == $key){
             return [
@@ -227,9 +232,13 @@ class SimulaeNode{
         }
         return array_key_exists( $key, $this->relations[$key_type] ) ? $this->relations[$key_type][$key] : $this->update_relation($GLOBALS['ngin']->state->$key_type[$key] );
     }
+
+
     function delete_relation( string $key, string $key_type ){
         unset($this->relations[$key_type][$key]);
     }
+
+
     function update_relation( SimulaeNode $node ){
 
         if($this->id == $node->get_id()){
@@ -253,6 +262,8 @@ class SimulaeNode{
         return $this->set_relation( $node->get_id(), $node->get_nodetype(), $relation );
 
     }
+
+
     function set_relation( string $key, string $key_type, array $values ){
 
         $relation = [
@@ -271,6 +282,7 @@ class SimulaeNode{
 
         return $relation;
     }
+
 
     function get_master(){
 
@@ -291,6 +303,7 @@ class SimulaeNode{
 
     }
 
+
     /* Checks : associative array functions 
 
     */
@@ -307,6 +320,7 @@ class SimulaeNode{
     function set_check( string $key, bool $value ){
         $this->checks[$key] = $value;
     }
+
 
     /* Policy : associative array functions 
 
@@ -343,8 +357,6 @@ class SimulaeNode{
 
             $delta = abs( $this->get_policy_index( $factor, $policy[0] ) - $this->get_policy_index( $factor, strval($comparison_policy[$factor][0]) ) );
 
-            #echo "delta between ".strval($policy[0])." and ".$comparison_policy[$factor][0]." is ".$delta."\n";
-
             if($summary){
                 $diff_summary[$factor] = [["Agreement", "Civil", "Contentious",  "Opposition", "Diametrically Opposed"][$delta], $delta];
             }
@@ -370,7 +382,7 @@ class SimulaeNode{
             "Diversity" => ["Homogenous", "Preservationist", "Indifferent", "Heterogeneous", "Multiculturalist"],
             "Secularity" => ["Apostate", "Secularist", "Indifferent", "Religious", "Devout"],
             "Justice" => ["Retributionist", "Punitive", "Indifferent", "Correctivist", "Rehabilitative"],
-            "Natural-Balance" => ["Ecologist", "Naturalist", "Indifferent", "Productivist", "Industrialist"],
+            "Naturalism" => ["Ecologist", "Naturalist", "Indifferent", "Productivist", "Industrialist"],
             "Government" => ["Democratic", "Republican", "Indifferent", "Oligarchic", "Monarchist"]
         ];
 
@@ -407,7 +419,6 @@ class SimulaeNode{
         $this->abilities[$key] = $value;
     }
 
-
 }
 
 
@@ -433,14 +444,15 @@ class NGINPHP{
 
         foreach( $save_state as $nodetype => $nodes ){
             foreach( $nodes as $node_id => $json_node){
-                $this->add_node( $node_id, $nodetype, $json_node );
+                $this->add_node_json( $node_id, $nodetype, $json_node );
             }
+        
         }
-
 
     }
 
-    function add_node( $node_id, $nodetype, $json_node ){
+
+    function add_node_json( $node_id, $nodetype, $json_node ){
 
         $node = new SimulaeNode(   
                     $node_id,
@@ -464,14 +476,137 @@ class NGINPHP{
         }elseif ($nodetype == "LOC") {
             $this->state->LOC[$node_id] = $node; 
         }else{
-            throw new Exception('state add_node() Invalid node type : '.$nodetype."\n");
+            throw new Exception('state add_node_json() Invalid node type : '.$nodetype."\n");
         }
     }
 
+    function add_node( SimulaeNode $node ){
 
-    function generate_element(){
-        /* creates a new node with random attributes */
-        throw new Exception("<function> not yet implemented!");
+        $node_id = $node->id;
+        $nodetype = $node->nodetype;
+
+
+         if( $nodetype == "FAC" ){
+            $this->state->FAC[$node_id] = $node; 
+
+        }elseif ($nodetype == "POI") {
+            $this->state->POI[$node_id] = $node; 
+
+        }elseif ($nodetype == "PTY") {
+            $this->state->PTY[$node_id] = $node; 
+
+        }elseif ($nodetype == "OBJ") {
+            $this->state->OBJ[$node_id] = $node; 
+
+        }elseif ($nodetype == "LOC") {
+            $this->state->LOC[$node_id] = $node; 
+
+        }else{
+            throw new Exception('state add_node_json() Invalid node type : '.$nodetype."\n");
+        }
+
+    }
+
+
+    function delete_node( SimulaeNode $node ){
+
+        $node_id = $node->id;
+        $nodetype = $node->nodetype;
+
+
+         if( $nodetype == "FAC" ){
+            unset($this->state->FAC[$node_id]); 
+
+        }elseif ($nodetype == "POI") {
+            unset($this->state->POI[$node_id]); 
+
+        }elseif ($nodetype == "PTY") {
+            unset($this->state->PTY[$node_id]); 
+
+        }elseif ($nodetype == "OBJ") {
+            unset($this->state->OBJ[$node_id]); 
+
+        }elseif ($nodetype == "LOC") {
+            unset($this->state->LOC[$node_id]); 
+
+        }else{
+            throw new Exception('state add_node_json() Invalid node type : '.$nodetype."\n");
+        }
+
+    }
+
+
+    function generate_element(  string $disposition = null, 
+                                string $nodetype = null, 
+                                array $relations = null ){
+        /* creates a new node with random or specified attributes */
+
+        $new_id = random_choice( $this->madlibs["names"] );
+        unset($this->madlibs["names"][array_search($new_id, $this->madlibs["names"])]);
+
+        if( is_null($nodetype) ){
+            $nodetype = random_choice( [ "FAC", "POI", "PTY", "OBJ", "LOC" ] );
+        }
+
+        if( is_null($disposition) ){
+            
+        }
+
+        /*  public $id;
+            public $nodetype;
+            public $references;
+            public $attributes;
+            public $relations;
+            public $checks;
+            public $policies;
+            public $abilities;
+        */
+
+        $new_node = new SimulaeNode(    
+            $new_id,
+            $nodetype, 
+            [],         # references
+            [],         # attributes   
+            [],         # relations
+            [],         # checks
+            [
+                "Economy" => [
+                    random_choice($this->madlibs["policies"]["Economy"]),
+                    (rand(0,1000)/1000)],
+                "Liberty" => [
+                    random_choice($this->madlibs["policies"]["Liberty"]),
+                    (rand(0,1000)/1000)],
+                "Culture" => [
+                    random_choice($this->madlibs["policies"]["Culture"]),
+                    (rand(0,1000)/1000)],
+                "Diplomacy" => [
+                    random_choice($this->madlibs["policies"]["Diplomacy"]),
+                    (rand(0,1000)/1000)],
+                "Militancy" => [
+                    random_choice($this->madlibs["policies"]["Militancy"]),
+                    (rand(0,1000)/1000)],
+                "Diversity" => [
+                    random_choice($this->madlibs["policies"]["Diversity"]),
+                    (rand(0,1000)/1000)],
+                "Secularity" => [
+                    random_choice($this->madlibs["policies"]["Secularity"]),
+                    (rand(0,1000)/1000)],
+                "Justice" => [
+                    random_choice($this->madlibs["policies"]["Justice"]),
+                    (rand(0,1000)/1000)],
+                "Naturalism" => [
+                    random_choice($this->madlibs["policies"]["Naturalism"]),
+                    (rand(0,1000)/1000)],
+                "Government" => [
+                    random_choice($this->madlibs["policies"]["Government"]),
+                    (rand(0,1000)/1000)],
+            ],
+            []          # abilities
+        );
+
+        return $new_node;
+
+        #throw new Exception("<function> not yet implemented!");
     }
 
 
@@ -511,11 +646,14 @@ class NGINPHP{
             # select available action based on node type
             $action = random_choice( $this->story_struct[$nodetype][$disposition] );
 
-            array_push($options, [$action[1], $action[0], $chosen_node] );            
+            if( ! in_array($options, [$action, $chosen_node]) ){
+                array_push($options, [$action, $chosen_node] );
+            }
 
         }
 
         return $options;
+
     }
 
 
@@ -527,32 +665,51 @@ class NGINPHP{
         throw new Exception("generate_event() not yet implemented!");
     }
 
+
     function select_action( array $options, SimulaeNode $actor_node, bool $random_opt = false ){
         /*  To add more interractivity and user-control this function will 
-        give several available options to allow the player to 'control' 
-        their actions and interract with other nodes in a manner of their 
-        choice.
+            give several available options to allow the player to 'control' 
+            their actions and interract with other nodes in a manner of their 
+            choice.
         */
-        #throw new Exception("select_action() not yet implemented!");
 
         echo $actor_node->get_reference("name") . ":\n";
 
         $i = 1;
-        foreach( $options as list($discretion, $action, $node) ){
+        foreach( $options as list( list($action, $discretion, $rewards, $penalties), $node) ){
 
-            echo "(".$i.")". $action . " " . $node->summary() . " {" . $discretion ."}\n";
+            echo "(".$i.") ". $action . " " . $node->summary() . " {" . $discretion ."}\n";
             $i+=1;
 
         }
+
         if($random_opt){
             echo "(".$i.") random\n";
         }
+
+        $index = $this->user_choice_integer("", 0, count($options) );
+
+        if( $index >= 0 and $index <= count($options) ){
+            return $options[$index];
+        }elseif ( $index == count($options) and $random_opt ) {
+            return random_choice($options);
+        }
+
+    }
+
+
+    function user_choice_integer( string $msg, int $limit_low, int $limit_high ){
+        /*Present user with available options, and allow them to pick
+            an option to proceed.
+        */
+
+        echo $msg."\n";
 
         $choice = null;
 
         while( is_null($choice) ){
 
-            $choice = readline("choice >");
+            $choice = readline("(#) >");
 
             if( in_array($choice, ["q","quit","exit","Quit"]) ){
                 $this->save();
@@ -561,30 +718,49 @@ class NGINPHP{
 
             $index = intval($choice)-1;
 
-            if( $index >= 0 and $index <= count($options) ){
-                return $options[$index];
-            }elseif ( $index == count($options) and $random_opt ) {
-                return random_choice($options);
+            if( $index >= $limit_low and $index <= $limit_high ){
+                return $index;
             }
+
+            $choice = null;
+
+        }
+
+    }
+
+
+    function user_choice_preset( string $msg, array $options ){
+        /* Present user with available options, and allow them to pick
+            an option to proceed. User must enter the options literally.
+        */
+        
+        echo $msg."\n";
+
+        foreach ($options as $value) {
+            echo " / ".$value;
+        }
+        echo "\n";
+
+        $choice = null;
+
+        while( is_null($choice) ){
+
+            $choice = readline(" >");
+
+            if( in_array($choice, ["q","quit","exit","Quit"]) ){
+                $this->save();
+                exit;
+            }elseif ( in_array($choice, $options)) {
+                return $choice;
+            }
+
+            echo "Invalid\n";
 
             $choice = null;
 
         }
     }
 
-    function user_choice_array(){
-        /*Present user with available options, and allow them to pick
-            an option to proceed.
-        */
-        throw new Exception("user_choice_array() not yet implemented!");
-    }
-
-    function user_choice_preset(){
-        /* Present user with available options, and allow them to pick
-            an option to proceed.
-        */
-        throw new Exception("user_choice_preset() not yet implemented!");
-    }
 
     function display_nodes_terminal( SimulaeNode $actor ){
         # display in-play nodes to terminal output
@@ -601,11 +777,93 @@ class NGINPHP{
     }
 
 
+    function action_handler( string $action, string $discretion, array $rewards, array $penalties, SimulaeNode $node ){
+
+        /* Handle resource allocation */
+
+        /* Overt : event generation */
+
+        /* Covert : event generation */
+
+        /* Passive : event generation */
+
+        /* handle mission outcome */
+        $outcome = $this->user_choice_preset("Mission successful?", ["y","n"]);
+
+        $consequences = $outcome == "y" ? $rewards : $penalties;
+
+        foreach( $consequences as $cons ){
+
+            if(      $cons == "+rand"){
+
+                echo "+rand\n";
+
+            }elseif ($cons == "-rand") {
+                    
+                echo "-rand\n";
+
+            }
+            elseif ($cons == "+control") {
+                
+                echo "+control\n";
+
+            }elseif ($cons == "-control") {
+                    
+                echo "-control\n";
+
+            }
+            elseif ($cons == "+intel") {
+                     
+                echo "+intel\n";
+
+                $new = $this->generate_element();
+
+                echo "[New Intel] ".$new->summary()."\n";
+
+                $this->add_node( $node );
+
+                #$this->state->$new->get_nodetype()[$new->get_id()] = $node;
+
+
+            }elseif ($cons == "%intel") {
+                    
+                if( rand(1,20) > 15 ){
+
+
+
+                }
+
+            }
+            elseif ($cons == "+delete") {
+                    
+                echo "successfully removed ".$node->summary()."\n";
+
+                $this->delete_node( $node );
+
+            }elseif ($cons == "-delete") {
+                    
+                echo $node->summary()." has been lost\n";
+
+                $this->delete_node( $node );
+
+            }
+            elseif ($cons == "+defense") {
+                    
+                echo "+defense\n";
+
+            }elseif ($cons == "-defense") {
+                    
+                echo "-defense\n";
+
+            }
+
+        }
+        
+
+    }
+
+
     function start(){
-
-        echo "start() executing...";
-
-        readline(">...");
 
         while(true){
 
@@ -623,11 +881,12 @@ class NGINPHP{
             # generate action options -> user selection
             $action_options = $this->generate_actions( 3, $this->state->FAC['ctscorch'] );
 
-            list($discretion, $action, $node) = $this->select_action( $action_options, $this->state->FAC['ctscorch'] );
+            list( list($action, $discretion, $rewards, $penalties), $node) = $this->select_action( $action_options, $this->state->FAC['ctscorch'] );
 
             echo "chosen: ".$action . " " . $node->summary($this->state->FAC['ctscorch']) . " {" . $discretion ."}\n";
 
             # Handle action outcome 
+            $this->action_handler($action, $discretion, $rewards, $penalties, $node);
 
 
             $cmd = readline("\ncontinue [enter] / [q]uit ?> ");
@@ -641,8 +900,6 @@ class NGINPHP{
     function save(){
 
         echo "save() executing...";
-
-        echo "save() function is not conservative! Data will be lost in the save file";
 
         $save_file = fopen("test_save.json","w");
 
