@@ -120,11 +120,11 @@ class SimulaeNode{
         $this->id = $id;
         $this->nodetype = $nodetype;
         $this->references = $references;
-        $this->attributes = $attributes;
-        $this->relations = $relations;
-        $this->checks = $checks;
-        $this->policies = $policies;
-        $this->abilities = $abilities;
+        $this->attributes = ($attributes);
+        $this->relations = ($relations);
+        $this->checks = ($checks);
+        $this->policies = ($policies);
+        $this->abilities = ($abilities);
         
     }
 
@@ -221,6 +221,9 @@ class SimulaeNode{
 
 
     function get_relation( string $key, string $key_type ){
+
+        if( array_key_exists( $key_type, $this->relations ) )
+
         if($this->id == $key){
             return [
                 "nodetype" => $this->nodetype,
@@ -230,6 +233,7 @@ class SimulaeNode{
                 "disposition" => "actor"
             ];
         }
+
         return array_key_exists( $key, $this->relations[$key_type] ) ? $this->relations[$key_type][$key] : $this->update_relation($GLOBALS['ngin']->state->$key_type[$key] );
     }
 
@@ -393,9 +397,9 @@ class SimulaeNode{
 
         if( $diff_score <= 5 ){
             return "friendly";
-        }elseif($diff_score <= 10 ){
+        }elseif($diff_score <= 15 ){
             return "neutral";
-        }elseif($diff_score > 10 ){
+        }elseif($diff_score > 15 ){
             return "hostile";
         }
 
@@ -488,18 +492,30 @@ class NGINPHP{
 
          if( $nodetype == "FAC" ){
             $this->state->FAC[$node_id] = $node; 
+            echo "added ".$node_id. " to FAC\n";
+            echo $this->state->FAC[$node_id]->summary()."\n";
 
         }elseif ($nodetype == "POI") {
             $this->state->POI[$node_id] = $node; 
+            echo "added ".$node_id. " to POI\n";
+            echo $this->state->POI[$node_id]->summary()."\n";
 
         }elseif ($nodetype == "PTY") {
             $this->state->PTY[$node_id] = $node; 
+            echo "added ".$node_id. " to PTY\n";
+
+            echo $this->state->PTY[$node_id]->summary()."\n";
 
         }elseif ($nodetype == "OBJ") {
             $this->state->OBJ[$node_id] = $node; 
+            echo "added ".$node_id. " to OBJ\n";
+
+            echo $this->state->OBJ[$node_id]->summary()."\n";
 
         }elseif ($nodetype == "LOC") {
-            $this->state->LOC[$node_id] = $node; 
+            $this->state->LOC[$node_id] = $node;
+            echo "added ".$node_id. " to LOC\n"; 
+            echo $this->state->LOC[$node_id]->summary()."\n";
 
         }else{
             throw new Exception('state add_node_json() Invalid node type : '.$nodetype."\n");
@@ -542,6 +558,9 @@ class NGINPHP{
         /* creates a new node with random or specified attributes */
 
         $new_id = random_choice( $this->madlibs["names"] );
+
+        echo $new_id;
+
         unset($this->madlibs["names"][array_search($new_id, $this->madlibs["names"])]);
 
         if( is_null($nodetype) ){
@@ -565,9 +584,15 @@ class NGINPHP{
         $new_node = new SimulaeNode(    
             $new_id,
             $nodetype, 
-            [],         # references
+            ["name"=>$new_id],         # references
             [],         # attributes   
-            [],         # relations
+            [
+                "FAC" => [],
+                "POI" => [],
+                "PTY" => [],
+                "OBJ" => [],
+                "LOC" => []
+            ],         # relations
             [],         # checks
             [
                 "Economy" => [
@@ -820,9 +845,7 @@ class NGINPHP{
 
                 echo "[New Intel] ".$new->summary()."\n";
 
-                $this->add_node( $node );
-
-                #$this->state->$new->get_nodetype()[$new->get_id()] = $node;
+                $this->add_node( $new );
 
 
             }elseif ($cons == "%intel") {
