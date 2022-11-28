@@ -143,9 +143,9 @@
             ["Fortify","Passive",["+defense"],[]],
 
             ["Capture","Overt",["+control","%intel"],[]],
-            ["Destroy","Overt",["+delete"],[]],
+            ["Destroy","Overt",["+delete","-defense"],[]],
 
-            ["Infiltrate","Covert",["+intel"],[]],
+            ["Infiltrate","Covert",["+intel","-defense"],[]],
             ["Investigate","Covert",["+intel"],[]],
             ["Surveil","Covert",["+intel"],[]]
         ],
@@ -162,13 +162,12 @@
             ["Fortify","Passive",["+defense"],[]]
         ],
         "hostile":[
-            ["Capture","Overt",["+control"],[]],
+            ["Capture","Overt",["+control","-defense"],[]],
             ["Destroy","Overt",["+delete"],[]],
 
-            ["Infiltrate","Covert",["+intel"],[]],
+            ["Infiltrate","Covert",["+intel","-defense"],[]],
             ["Investigate","Covert",["+intel"],[]],
             ["Surveil","Covert",["+intel"],[]]
         ]
     }
-
 }

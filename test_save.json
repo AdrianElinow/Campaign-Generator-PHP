@@ -117,8 +117,8 @@
                                 0
                             ],
                             "Government": [
-                                "Civil",
-                                1
+                                "Opposition",
+                                3
                             ]
                         },
                         "reputation": [
@@ -185,119 +185,7 @@
             "abilities": []
         }
     },
-    "POI": {
-        "Specter": {
-            "id": "Specter",
-            "nodetype": "POI",
-            "references": {
-                "name": "Specter"
-            },
-            "attributes": [],
-            "relations": {
-                "FAC": {
-                    "ctscorch": {
-                        "nodetype": "FAC",
-                        "policy": {
-                            "Economy": [
-                                "Agreement",
-                                0
-                            ],
-                            "Liberty": [
-                                "Contentious",
-                                2
-                            ],
-                            "Culture": [
-                                "Civil",
-                                1
-                            ],
-                            "Diplomacy": [
-                                "Civil",
-                                1
-                            ],
-                            "Militancy": [
-                                "Civil",
-                                1
-                            ],
-                            "Diversity": [
-                                "Civil",
-                                1
-                            ],
-                            "Secularity": [
-                                "Civil",
-                                1
-                            ],
-                            "Justice": [
-                                "Contentious",
-                                2
-                            ],
-                            "Naturalism": [
-                                "Contentious",
-                                2
-                            ],
-                            "Government": [
-                                "Civil",
-                                1
-                            ]
-                        },
-                        "reputation": [
-                            0,
-                            0
-                        ],
-                        "interractions": 1,
-                        "disposition": "neutral"
-                    }
-                },
-                "POI": [],
-                "PTY": [],
-                "OBJ": [],
-                "LOC": []
-            },
-            "checks": [],
-            "policies": {
-                "Economy": [
-                    "Free-Capitalist",
-                    0.776
-                ],
-                "Liberty": [
-                    "Statist",
-                    0.405
-                ],
-                "Culture": [
-                    "Indifferent",
-                    0.999
-                ],
-                "Diplomacy": [
-                    "Nationalist",
-                    0.695
-                ],
-                "Militancy": [
-                    "Indifferent",
-                    0.396
-                ],
-                "Diversity": [
-                    "Indifferent",
-                    0.23
-                ],
-                "Secularity": [
-                    "Indifferent",
-                    0.038
-                ],
-                "Justice": [
-                    "Indifferent",
-                    0.791
-                ],
-                "Naturalism": [
-                    "Naturalist",
-                    0.965
-                ],
-                "Government": [
-                    "Autocratic",
-                    0.5
-                ]
-            },
-            "abilities": []
-        }
-    },
+    "POI": [],
     "PTY": [],
     "OBJ": [],
     "LOC": {
@@ -363,8 +251,8 @@
                                 0
                             ],
                             "Government": [
-                                "Civil",
-                                1
+                                "Opposition",
+                                3
                             ]
                         },
                         "reputation": [
@@ -529,8 +417,8 @@
                                 0
                             ],
                             "Government": [
-                                "Civil",
-                                1
+                                "Opposition",
+                                3
                             ]
                         },
                         "reputation": [
@@ -604,7 +492,7 @@
                 "master": "aayari"
             },
             "attributes": {
-                "defense": 1
+                "defense": 2
             },
             "relations": {
                 "FAC": {
@@ -658,8 +546,8 @@
                                 0
                             ],
                             "Government": [
-                                "Civil",
-                                1
+                                "Opposition",
+                                3
                             ]
                         },
                         "reputation": [
@@ -787,8 +675,8 @@
                                 0
                             ],
                             "Government": [
-                                "Civil",
-                                1
+                                "Opposition",
+                                3
                             ]
                         },
                         "reputation": [
