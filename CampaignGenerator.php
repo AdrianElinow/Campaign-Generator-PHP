@@ -3,6 +3,8 @@
 
 $ngin;
 
+$DEBUG = false;
+
 class SimulaeState{
 
     /* SimulaeState
@@ -15,6 +17,7 @@ class SimulaeState{
     public $PTY;
     public $OBJ;
     public $LOC;
+
     public $actor;
 
     function __construct( $FAC, $POI, $PTY, $OBJ, $LOC ){
@@ -25,36 +28,34 @@ class SimulaeState{
         $this->OBJ = $OBJ;
         $this->LOC = $LOC;
 
-        /* 'Introduce' all factions to each other.
-                functionally necessary until factions can dynamically interact with each other autonomously.
-        */
-
-        foreach( $this->FAC as $fac_id => $fac){
-            foreach( $this->FAC as $fac_id2 => $fac2){
-                
-                if($fac_id != $fac_id2){
-
-                    $fac->update_relation($fac2);
-                    $fac2->update_relation($fac);
-
-                }
-
-            }    
-        }
-
-        $this->set_actor();
+        $this->actor = null;
 
     }
 
     function set_actor(){
-        /*  */
+        /* User may choose their avatar node */
 
-        #$this->actor = $this->FAC[ $GLOBALS['ngin']->user_choice_preset( $this->FAC, $random_opt=true ) ];
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeState set_actor()}\n"; }
+
+        #$chosen = user_choice_array( "User choose avatar node:", array_values($this->FAC), $random_opt=true, $simulaenode_options=true );
+
+        $this->actor = $GLOBALS["ngin"]->user_choice_array( "User choose avatar node:", array_values($this->FAC), $random_opt=false, $simulaenode_options=true );
+
+        #readline(">");
     
+    }
+
+    function get_actor(){
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeState get_actor()}\n"; }
+
+        return $this->actor;
+
     }
 
 
     function get_nodes( string $nodetype ){
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeState get_nodes()}\n"; }
 
         if( $nodetype == "FAC" ){
             return $this->FAC; 
@@ -76,6 +77,8 @@ class SimulaeState{
 
 
     function get_all_nodes(){
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeState get_all_nodes()}\n"; }
         /* variable dump as associative array for php->json conversion */
 
         return [    "FAC"=>$this->FAC,
@@ -120,7 +123,7 @@ class SimulaeNode{
                         neutral     | this node is non-hostile to other node
                         friendly    | this node is friendly to other node
                         hostile     | this node is hostile to other node
-                        affiliated  | same group/faction
+                        affiliate   | same group/faction
                         master      | other node is subservient under this node
                         servant     | other node has mastership over this node
                         captor      | this node is detained by node
@@ -155,15 +158,21 @@ class SimulaeNode{
         $this->id = $id;
         $this->nodetype = $nodetype;
         $this->references = $references;
-        $this->attributes = ($attributes);
-        $this->relations = ($relations);
-        $this->checks = ($checks);
-        $this->policies = ($policies);
-        $this->abilities = ($abilities);
+        $this->attributes = $attributes;
+        $this->relations = $relations;
+        $this->checks = $checks;
+        $this->policies = $policies;
+        $this->abilities = $abilities;
+
+        if ($this->nodetype == "FAC" ) {
+            echo $this->attributes["capability_points"]."\n";
+        }
         
     }
 
     function summary( SimulaeNode $perspective=null ){
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." summary()}\n"; }
 
         /* Simple single-line string summary of the node's important details  
                 contents vary by nodetype
@@ -176,7 +185,25 @@ class SimulaeNode{
 
             return strval($this->nodetype) . " " . strval($this->get_reference("name"));
 
+        }elseif( $perspective->get_id() == $this->get_id() ){
+
+            $relation = $this->get_relation($perspective->get_id(), $perspective->get_nodetype());
+
+            # location nodetype specific output
+            if($this->nodetype == "LOC"){
+                return "<" . strval($relation['disposition']) . "> [".$this->get_attribute("defense")."] ". strval($this->nodetype) . " " . strval($this->get_reference("name"));
+            }elseif ($this->nodetype == "FAC") {
+                return "<" . strval($relation['disposition']) . "> "
+                    . strval($this->nodetype) . " " 
+                    . strval($this->get_reference("name")) . " [" 
+                    . strval($this->attributes["capability_points"]) . "]";
+            }else{
+
+                return "<" . strval($relation['disposition']) . "> " . strval($this->nodetype) . " " . strval($this->get_reference("name"));
+            }
+
         }else{
+
             $relation = $this->get_relation($perspective->get_id(), $perspective->get_nodetype());
 
             # location nodetype specific output
@@ -193,11 +220,17 @@ class SimulaeNode{
 
     function get_id(){
         # self-evident function #
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." get_id()}\n"; }
+
         return $this->id;
     }
 
     function get_nodetype(){
         # self-evident function #
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." get_nodetype()}\n"; }
+
         return $this->nodetype;
     }
 
@@ -208,20 +241,32 @@ class SimulaeNode{
 
     function get_references(){
         /* returns the node's references */
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." get_references()}\n"; }
+        
         return clone $this->references;
     }
-    function get_reference( string $reference ){
+    function get_reference( string $key ){
         /* using a string key identifier, returns the corresponding value from the node's references, provided that the key/value pair exists */
-        return array_key_exists($reference, $this->references) ? $this->references[$reference] : null;
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." get_reference($key)}\n"; }
+        
+        return array_key_exists($key, $this->references) ? $this->references[$key] : null;
     }
     function delete_reference( string $key ){
         /* removes the entry provided that the k,v pair exists */
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." delete_reference($key)}\n"; }
+        
         if( array_key_exists($key, $this->references)){
             unset($this->references[$key]);
         }
     }
     function set_reference( string $key, string $value ){
         /* modifies the value for a given key */
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." set_reference($key, & $value)}\n"; }
+        
         $this->references[$key] = $value;
     }
 
@@ -231,20 +276,34 @@ class SimulaeNode{
 
     function get_attributes(){
         /* returns the node's attributes */
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." get_attributes()}\n"; }
+        
         return clone $this->attributes;
     }
-    function get_attribute( string $attribute ){
+    function get_attribute( string $key ){
         /* using a string key identifier, returns the corresponding value from the node's attributes, provided that the key/value pair exists */
-        return array_key_exists($attribute, $this->attributes) ? $this->attributes[$attribute] : null;
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." set_attribute($key, ...)}\n"; }
+        
+        return array_key_exists($key, $this->attributes) ? $this->attributes[$key] : null;
     }
     function delete_attribute( string $key ){
         /* removes the entry provided that the k,v pair exists */
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." delete_attribute($key, ...)}\n"; }
+        
         if( array_key_exists($key, $this->attributes)){
             unset($this->attributes[$key]);
         }
     }
     function set_attribute( string $key, mixed $value ){
         /* modifies the value for a given key */
+
+        
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." set_attribute($key, ...)}\n"; }
+        
+        
         $this->attributes[$key] = $value;
     }
 
@@ -263,7 +322,22 @@ class SimulaeNode{
 
     function get_relations(){
         /* returns the node's relations */
-        return clone $this->relations;
+
+        
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." get_relations()}\n"; }
+        
+        
+        return $this->relations;
+    }
+
+    function has_relation( string $key ){
+
+        
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." has_relation($key)}\n"; }
+        
+
+        return array_key_exists($key, $this->get_relations());
+
     }
 
 
@@ -272,6 +346,8 @@ class SimulaeNode{
 
             This function requires both the node's id as well as its nodetype
         */
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." get_relation($key, $key_type)}\n"; }
 
         #if( array_key_exists( $key_type, $this->relations ) )
 
@@ -293,16 +369,21 @@ class SimulaeNode{
 
     function delete_relation( string $key, string $key_type ){
         /* removes the entry provided that the k,v pair exists */
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." delete_relation($key, $key_type)}\n"; }
+        
         if( array_key_exists($key, $this->relations[$key_type])){
             unset($this->relations[$key_type][$key]);
         }
     }
 
 
-    function update_relation( SimulaeNode $node ){
+    function update_relation( SimulaeNode $node, int $rep_diff = 0 ){
 
         /* evaluates the policy differential between this node and $node, then modifies/adds the entry using set_relation()
         */
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." update_relation(".$node->get_id().")}\n"; }
 
         if($this->id == $node->get_id()){
             return;
@@ -310,17 +391,36 @@ class SimulaeNode{
 
         list($diff_score, $diff) = $this->policy_diff($node->get_policies(), $summary=true);
 
-        #echo $diff_score."\n";
+        $relation = $this->has_relation( $node->get_id() ) ? 
+            [           # has previous relation
+                "nodetype" => $node->get_nodetype(),
+                "policy" => $diff,
+                "reputation" => 
+                    $this->get_relation($node->get_id())["reputation"],
+                "interractions" => 1,
+                "disposition" => $disposition
+            ] : [       # no previous relation
+                "nodetype" => $node->get_nodetype(),
+                "policy" => $diff,
+                "reputation" => [0,0],
+                "interractions" => 1,
+                "disposition" => $this->get_disposition($diff_score, 0, 0)
+            ];
 
-        $relation = [
-            "nodetype" => $node->get_nodetype(),
-            "policy" => $diff,
-            "reputation" => [0,0],
-            "interractions" => 1,
-            "disposition" => $this->get_disposition_from_score($diff_score)
-        ];
+        if ($rep_diff >= 0) {
+            $relation["reputation"][0] += $rep_diff;
+        }else{ # -rep_diff
+            $relation["reputation"][1] += abs($rep_diff);
+        }
 
-        #echo $this->id." updated relation with ".$node->get_id()." -> ".$relation['disposition']."\n";
+        $disposition = $this->check('has_master') ? 
+            $this->get_master()->get_relation(
+                    $node->get_id(), 
+                    $node->get_nodetype())['disposition'] : 
+            $this->get_disposition( 
+                $diff_score, 
+                $relation["reputation"][0], 
+                $relation["reputation"][1]);
 
         return $this->set_relation( $node->get_id(), $node->get_nodetype(), $relation );
 
@@ -332,13 +432,15 @@ class SimulaeNode{
                 To ensure no malformed structures (that the minimum necessary data is included), k/v pairs from $values are added/set in $relation.
         */
 
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." set_relation($key, $key_type, ...)}\n"; }
+
         # minimum structure requirements
         $relation = [
             "nodetype" => $key_type,
             "policy" => [],
             "reputation" => [0,0],
             "interractions" => 1,
-            "disposition" => "neutral"
+            "disposition" => null
         ];
 
         foreach ($values as $factor => $val ) {
@@ -354,6 +456,8 @@ class SimulaeNode{
     function set_master( $new_master ){
         /* set master-ship of this node to $new_master */
 
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." set_master(".$new_master->get_id().")}\n"; }
+        
         if( in_array($this->nodetype, ["OBJ","LOC"]) ){
 
             $this->set_relation( $new_master->get_id(), $new_master->get_nodetype(), [ "policy" => $new_master->get_policies(),"disposition" => "master" ] );
@@ -368,6 +472,9 @@ class SimulaeNode{
     function get_master(){
         /* if it exists, yield this node's referenced 'master' node */
 
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." get_master()}\n"; }
+        
+
         if($this->check("has_master")){
             $master_id = $this->get_reference("master");
             foreach($this->relations as $nodetype => $nodes){
@@ -375,6 +482,7 @@ class SimulaeNode{
                     return $GLOBALS['ngin']->state->$nodetype[$master_id];
                 }
             }
+
             throw new Exception($this->id . " get_master() ".$master_id." not found in relations", 1);
             
         }
@@ -392,21 +500,32 @@ class SimulaeNode{
 
     function get_checks(){
         /* returns the node's checks */
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." get_checks()}\n"; }
+        
         return clone $this->checks;
     }
     function check( string $check ){
         /* using a string key identifier, returns the corresponding value from the node's attributes, provided that the key/value pair exists */
 
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." check($check)}\n"; }
+        
         return array_key_exists($check, $this->checks) ? $this->checks[$check] : null;
     }
     function delete_check( string $key ){
         /* removes the entry provided that the k,v pair exists */
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." delete_check($key)}\n"; }
+        
         if( array_key_exists($key, $this->checks)){
             unset($this->checks[$key]);
         }
     }
     function set_check( string $key, bool $value ){
         /* modifies the value for a given key */
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." set_check($key, $value)}\n"; }
+        
         $this->checks[$key] = $value;
     }
 
@@ -418,6 +537,8 @@ class SimulaeNode{
     function get_policies(){
         /* returns the node's policies */
 
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." get_policies()}\n"; }
+        
         # if this node has no defined policies...
         if($this->policies == []){
             # but has a 'master' node:
@@ -434,12 +555,17 @@ class SimulaeNode{
     function get_policy( string $policy ){
         /* using a string key identifier, returns the corresponding value from the node's policies, provided that the key/value pair exists */
 
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." get_policy($policy)}\n"; }
+        
         return array_key_exists($policy, $this->policies) ? $this->policies[$policy] : null ;
     }
 
 
     function delete_policy( string $key ){
         /* removes the entry provided that the k,v pair exists */
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." delete_policy($key)}\n"; }
+        
         if( array_key_exists($key, $this->policies)){
             unset($this->policies[$key]);
         }
@@ -448,6 +574,9 @@ class SimulaeNode{
 
     function set_policy( string $key, bool $value ){
         /* modifies the value for a given key */
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." set_policy($key, $value)}\n"; }
+        
         $this->policies[$key] = $value;
     }
 
@@ -455,6 +584,8 @@ class SimulaeNode{
 
     function policy_diff( array $comparison_policy, bool $summary = false){
 
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." policy_diff(...)}\n"; }
+        
         $diff_summary = [];
         $diff = 0;
 
@@ -480,6 +611,8 @@ class SimulaeNode{
         /* Returns integer position of a given policy factor on its discrete spectrum
         */
 
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." get_policy_index($factor, ...)}\n"; }
+        
         return array_search($policy, [
             "Economy" => ["Communist", "Socialist", "Indifferent", "Capitalist", "Free-Capitalist"],
             "Liberty" => ["Authoritarian", "Statist", "Indifferent", "Libertarian", "Anarchist"],
@@ -495,11 +628,13 @@ class SimulaeNode{
 
     }
 
-    function get_disposition_from_score( int $diff_score ){
+    function get_disposition( int $diff_score, int $positive_rep, int $negative_rep ){
         /* Depending on the total difference between two entity's policies, they will default treat each other differently.
             These magic-number values will be tweaked in further versions for balance.
         */
 
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." get_disposition($diff_score, $positive_rep, $negative_rep)}\n"; }
+        
         if( $diff_score <= 5 ){
             return "friendly";
         }elseif($diff_score <= 15 ){
@@ -517,20 +652,32 @@ class SimulaeNode{
 
     function get_abilities(){
         /* returns the node's abilities */
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." get_abilities()}\n"; }
+        
         return clone $this->abilities;
     }
     function get_ability( string $ability ){
         /* using a string key identifier, returns the corresponding value from the node's attributes, provided that the key/value pair exists */
+
+        if($GLOBALS["DEBUG"]){echo "DEBUG{SimulaeNode ".$this->id." get_ability($ability)}\n"; }
+
         return array_key_exists($ability, $this->abilities) ? $this->abilities[$ability] : null;
     }
     function delete_ability( string $key ){
         /* removes the entry provided that the k,v pair exists */
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." delete_ability($key)}\n"; }
+
         if( array_key_exists($key, $this->abilities)){
             unset($this->abilities[$key]);
         }
     }
     function set_ability( string $key, array $value ){
         /* modifies the value for a given key */
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeNode ".$this->id." set_ability($key, ...)}\n"; }
+
         $this->abilities[$key] = $value;
     }
 
@@ -579,6 +726,8 @@ class NGINPHP{
             throw new Exception("add_node_json() invalid nodetype :".$nodetype, 1);
         } #*/
 
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{NGINPHP add_node_json($node_id, $nodetype, ...)}\n"; }
+
         $node = new SimulaeNode(   
                     $node_id,
                     $nodetype,
@@ -614,6 +763,8 @@ class NGINPHP{
         /* Given a valid SimulaeNode, instantiates the node and adds it to the corresponding state index
         */
 
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{NGINPHP add_node(".$node->get_id().")}\n"; }
+
         $node_id = $node->id;
         $nodetype = $node->nodetype;
 
@@ -643,6 +794,8 @@ class NGINPHP{
     function delete_node( SimulaeNode $node ){
 
         /* Given a valid SimulaeNode, removes the node from the corresponding state index */
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{NGINPHP delete_node(".$node->get_id().")}\n"; }
 
         $node_id = $node->id;
         $nodetype = $node->nodetype;
@@ -674,6 +827,8 @@ class NGINPHP{
                                 string $nodetype = null, 
                                 array $relations = null ){
         /* creates a new node with random or specified attributes */
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{NGINPHP generate_element(...)}\n"; }
 
         $new_id;
         $attributes = [];
@@ -786,6 +941,8 @@ class NGINPHP{
         /* Given an actor node, which determines the perspective from which other nodes are viewed, generates actionable mission options for the actor to select from.
         */
 
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{NGINPHP generate_actions($num_options, ".$actor_node->get_id().", ...)}\n"; }
+
         $options = [];
 
         while( count($options) < $num_options ){
@@ -841,12 +998,22 @@ class NGINPHP{
     }
 
 
+    function FAC_AI_action(){
+        /* Performs an action as a given faction */
+
+        throw new Exception("FAC_AI_action() not yet implemented!");
+
+    }
+
+
     function select_action( array $options, SimulaeNode $actor_node, bool $random_opt = false ){
         /*  To add more interractivity and user-control this function will 
             give several available options to allow the player to 'control' 
             their actions and interract with other nodes in a manner of their 
             choice.
         */
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{NGINPHP select_action(..., ".$actor_node->get_id().", ...)}\n"; }
 
         echo $actor_node->get_reference("name") . ":\n";
 
@@ -873,11 +1040,52 @@ class NGINPHP{
 
     }
 
+    function user_choice_array(string $msg, array $options, bool $random_opt = false, bool $simulaenode_options = false){
+
+        /* Present user with available options, and allow them to pick
+            an option to proceed.
+        */
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{NGINPHP user_choice_array( \"$msg\", ..., ..., ...)}\n"; }
+        
+        echo $msg . ":\n";
+
+        #$i = 1;
+        foreach( $options as $i => $item ){
+
+            echo $simulaenode_options ? 
+                ("(".($i+1).") ".$item->summary()."\n") : 
+                ("(".($i+1).") $item }\n") ;
+            #$i+=1;
+
+        }
+
+        if($random_opt){
+            echo "(".($i+2).") random\n";
+        }
+
+        $index = $this->user_choice_integer("", 0, count($options) );
+
+        if ( $index == count($options) and $random_opt ) {
+
+            $chosen = random_choice($options)->summary();
+            
+            return $chosen;
+        }elseif( $index >= 0 and $index <= count($options) ){
+
+            return $options[$index];
+
+        }
+
+    }
+
 
     function user_choice_integer( string $msg, int $limit_low, int $limit_high ){
         /*Present user with available options, and allow them to pick
             an option to proceed.
         */
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{NGINPHP user_choice_integer(\"$msg\", $limit_low, $limit_high)}\n"; }
 
         echo $msg."\n";
 
@@ -905,15 +1113,31 @@ class NGINPHP{
     }
 
 
-    function user_choice_preset( string $msg, array $options ){
+    function user_choice_preset( string $msg, array $options, bool $simulaenode_options = false ){
         /* Present user with available options, and allow them to pick
             an option to proceed. User must enter the options literally.
         */
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{NGINPHP user_choice_preset($msg, ..., ...)}\n"; }
         
         echo $msg."\n";
 
+        if ( is_null($options) or count($options) == 0 ) {
+            
+            echo "Warning! user_choice_preset() | \$options may not be empty";
+            return;
+
+            #throw new Exception("user_choice_preset() \$options may not be empty");
+
+        }
+
         foreach ($options as $value) {
-            echo " / ".$value;
+
+            if ($simulaenode_options) {
+                echo "\t".$value->summary();
+            }else{
+                echo "\t".$value;
+            }
         }
         echo "\n";
 
@@ -941,19 +1165,22 @@ class NGINPHP{
     function display_nodes_terminal( SimulaeNode $actor ){
         # display in-play nodes to terminal output
 
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{NGINPHP display_nodes_terminal(".$actor->get_id().")}\n"; }
+
         echo "Nodes:\n";
         foreach( $this->state->get_all_nodes() as $nodetype => $nodes ){
             foreach( $nodes as $node_id => $node ){
-                #$relation = $node->get_relation($actor->get_id(), $actor->get_nodetype());
-                #echo "\t" . $node->summary() . " [" . is_null($relation) ? "" : $relation['disposition'] . "]\n";
-                echo "\t" . $node->summary($this->state->FAC['ctscorch']) . "\n";
+
+                echo "\t" . $node->summary($actor) . "\n";
             }
         }
 
     }
 
 
-    function action_handler( string $action, string $discretion, array $rewards, array $penalties, SimulaeNode $node ){
+    function action_handler( string $action, string $discretion, array $rewards, array $penalties, SimulaeNode $node, SimulaeNode $actor ){
+
+        if($GLOBALS["DEBUG"]){ echo "DEBUG{NGINPHP action_handler($action, $discretion, ..., ..., ".$node->get_id().", ".$actor->get_id().")}\n"; }
 
         /* Handle resource allocation */
 
@@ -972,16 +1199,25 @@ class NGINPHP{
 
                 echo "+rand\n";
 
+                array_push($consequences, random_choice(["+intel","+event","-event","+hostile","+neutral","+friendly","+affiliate"]) );
+
             }elseif ($cons == "-rand") {
                     
                 echo "-rand\n";
 
+                array_push($consequences, random_choice(["-event","+hostile","+neutral"]) );
+
             }
             elseif ($cons == "+control") {
-                
-                $node->set_master( $this->state->FAC['ctscorch'] );
+                /*
+                if( $node->check("has_master") ){
+                    $node->get_relation( $a );
+                }
+                */
 
-                echo "{".$node->get_nodetype()." Controlled} ".$node->summary( $this->state->FAC['ctscorch'] )."\n";
+                $node->set_master( $actor );
+
+                echo "{".$node->get_nodetype()." Controlled} ".$node->summary( $this->state->get_actor() )."\n";
 
             }elseif ($cons == "-control") {
                     
@@ -994,7 +1230,7 @@ class NGINPHP{
 
                 $new = $this->generate_element();
 
-                echo "[New Intel] ".$new->summary( $this->state->FAC['ctscorch'] )."\n";
+                echo "[New Intel] ".$new->summary( $actor )."\n";
 
                 $this->add_node( $new );
 
@@ -1005,7 +1241,7 @@ class NGINPHP{
 
                     $new = $this->generate_element();
 
-                    echo "[New Intel] ".$new->summary( $this->state->FAC['ctscorch'] )."\n";
+                    echo "[New Intel] ".$new->summary( $actor )."\n";
 
                     $this->add_node( $new );
 
@@ -1037,6 +1273,10 @@ class NGINPHP{
 
                 $node->set_attribute( "defense" , max( 0, $node->get_attribute("defense") - 1) );
 
+            }else{
+
+                echo $cons."\n";
+
             }
 
         }
@@ -1054,7 +1294,7 @@ class NGINPHP{
             system('clear');
 
             # display nodes
-            $this->display_nodes_terminal( $this->state->FAC['ctscorch']);
+            $this->display_nodes_terminal( $this->state->get_actor() );
 
             /*  generate event ?
                     if event occurs, provide extra action options
@@ -1063,14 +1303,14 @@ class NGINPHP{
 
             
             # generate action options -> user selection
-            $action_options = $this->generate_actions( 3, $this->state->FAC['ctscorch'] );
+            $action_options = $this->generate_actions( 5, $this->state->get_actor() );
 
-            list( list($action, $discretion, $rewards, $penalties), $node) = $this->select_action( $action_options, $this->state->FAC['ctscorch'] );
+            list( list($action, $discretion, $rewards, $penalties), $node) = $this->select_action( $action_options, $this->state->get_actor() );
 
-            echo "chosen: ".$action . " " . $node->summary($this->state->FAC['ctscorch']) . " {" . $discretion ."}\n";
+            echo "chosen: ".$action . " " . $node->summary($this->state->get_actor()) . " {" . $discretion ."}\n";
 
             # Handle action outcome 
-            $this->action_handler($action, $discretion, $rewards, $penalties, $node);
+            $this->action_handler($action, $discretion, $rewards, $penalties, $node, $this->state->get_actor() );
 
 
             $cmd = readline("\ncontinue [enter] / [q]uit ?> ");
@@ -1086,6 +1326,8 @@ class NGINPHP{
         /* Convert state and SimulaeNodes  */
 
         echo "save() executing...";
+
+        $GLOBALS["DEBUG"] = false;
 
         $save_file = fopen("test_save.json","w");
 
@@ -1129,6 +1371,13 @@ function main(){
     $save_file = json_decode(file_get_contents($save_file_fn), TRUE);
 
     $GLOBALS['ngin'] = new NGINPHP( $action_struct, $madlibs, $save_file );
+    $GLOBALS['ngin']->state->set_actor();
+
+    if( is_null($GLOBALS['ngin']->state->actor ) ){
+        throw new Exception(" main() state->actor is null!");
+    }
+
+    readline("[When desired: enter 'q' or 'quit' to exit program] start?");
 
     $GLOBALS['ngin']->start();
 

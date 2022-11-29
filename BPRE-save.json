@@ -7,10 +7,62 @@
                 "name": "Crisis Troop Scorch"
             },
             "attributes": {
-                "capabilitiy_points": 400
+                "capability_points": 400
             },
             "relations": {
-                "FAC": {},
+                "FAC": {
+                    "ctscorch": {
+                        "nodetype": "FAC",
+                        "policy": {
+                            "Economy": [
+                                "Civil",
+                                1
+                            ],
+                            "Liberty": [
+                                "Opposition",
+                                3
+                            ],
+                            "Culture": [
+                                "Civil",
+                                1
+                            ],
+                            "Diplomacy": [
+                                "Civil",
+                                1
+                            ],
+                            "Militancy": [
+                                "Civil",
+                                1
+                            ],
+                            "Diversity": [
+                                "Contentious",
+                                2
+                            ],
+                            "Secularity": [
+                                "Civil",
+                                1
+                            ],
+                            "Justice": [
+                                "Agreement",
+                                0
+                            ],
+                            "Naturalism": [
+                                "Agreement",
+                                0
+                            ],
+                            "Government": [
+                                "Opposition",
+                                3
+                            ]
+                        },
+                        "reputation": [
+                            0,
+                            0
+                        ],
+                        "interractions": 1,
+                        "disposition": "hostile"
+                    }
+                },
                 "POI": {},
                 "PTY": {},
                 "INV": {},
@@ -73,10 +125,62 @@
                 "name": "Aayari Network"
             },
             "attributes": {
-                "capabilitiy_points": 400
+                "capability_points": 400
             },
             "relations": {
-                "FAC": {},
+                "FAC": {
+                    "ctscorch": {
+                        "nodetype": "FAC",
+                        "policy": {
+                            "Economy": [
+                                "Civil",
+                                1
+                            ],
+                            "Liberty": [
+                                "Opposition",
+                                3
+                            ],
+                            "Culture": [
+                                "Civil",
+                                1
+                            ],
+                            "Diplomacy": [
+                                "Civil",
+                                1
+                            ],
+                            "Militancy": [
+                                "Civil",
+                                1
+                            ],
+                            "Diversity": [
+                                "Contentious",
+                                2
+                            ],
+                            "Secularity": [
+                                "Civil",
+                                1
+                            ],
+                            "Justice": [
+                                "Agreement",
+                                0
+                            ],
+                            "Naturalism": [
+                                "Agreement",
+                                0
+                            ],
+                            "Government": [
+                                "Opposition",
+                                3
+                            ]
+                        },
+                        "reputation": [
+                            0,
+                            10
+                        ],
+                        "interractions": 1,
+                        "disposition": "hostile"
+                    }
+                },
                 "POI": {},
                 "PTY": {},
                 "INV": {},
@@ -176,7 +280,7 @@
             "nodetype": "LOC",
             "references": {
                 "name": "MSR C-211",
-                "master":"ctsorch"
+                "master":"ctscorch"
             },
             "attributes": {
                 "defense":1

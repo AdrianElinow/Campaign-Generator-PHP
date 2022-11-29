@@ -13,7 +13,6 @@
             ["Eliminate","Overt",["+delete","%intel"],[]],
             ["Capture","Overt",["+control","%intel"],[]],
 
-            ["Infiltrate","Covert",["+intel"],[]],
             ["Surveil","Covert",["+intel"],[]],
             ["Investigate","Covert",["+intel"],[]]
         ],
@@ -24,7 +23,7 @@
             
             ["Interact","Passive",["+rand","%intel"],["-rand"]]
         ],
-        "affiliated":[
+        "affiliate":[
             ["Protect","Overt",["+defense"],["-delete"]],
             ["Liberate","Overt",["+control"],[]],
             ["Escort","Overt",["+defense"],["-delete"]],
@@ -45,7 +44,6 @@
 
             ["Interact","Passive",["+rand","%intel"],["-rand"]],
 
-            ["Infiltrate","Covert",["+intel"],[]],
             ["Surveil","Covert",["+intel"],[]],
             ["Investigate","Covert",["+intel"],[]]
         ]
@@ -73,7 +71,7 @@
             
             ["Interact","Passive",["+rand","%intel"],["-rand"]]
         ],
-        "affiliated":[
+        "affiliate":[
             ["Protect","Overt",["+defense"],["-delete"]],
             ["Liberate","Overt",["+control","%intel"],[]],
             ["Escort","Overt",["+defense"],["-delete"]],
@@ -117,7 +115,7 @@
 
             ["Interact","Passive",["+rand"],["-rand"]]
         ],
-        "affiliated":[
+        "affiliate":[
             ["Protect","Overt",["+defense"],["-delete"]],
             ["Secure","Overt",["+defense"],[]],
 
@@ -154,7 +152,7 @@
             ["Protect","Overt",["+defense"],["-delete"]],
             ["Fortify","Passive",["+defense"],[]]
         ],
-        "affiliated":[
+        "affiliate":[
             ["Protect","Overt",["+defense"],["-delete"]],
             ["Fortify","Passive",["+defense"],[]]
         ],

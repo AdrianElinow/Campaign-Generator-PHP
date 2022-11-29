@@ -68,3 +68,16 @@ boolean (true/false) values
 available actions of this node
 
 - structure TBD
+
+
+# Planned Features and Mechanics
+
+- Webpage UI/UX
+	- prototyped with bootstrap
+	- P5.js, JQuery, React.js?
+- Antagonistic AI-controlled nodes
+	- Faction nodes will deploy resources to accomplish tasks
+	- POI and PTY nodes will act autonomously (Interacting, travelling, performing tasks, etc.)
+- Events and effects that make sense.
+ 	- Successful Surveil / Investigate tasks will reveal (if any) a random node previously unknown to the actor node.
+
