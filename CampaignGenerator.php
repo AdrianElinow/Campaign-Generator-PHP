@@ -1363,12 +1363,14 @@ function main(){
 
     $action_struct_fn   =   "story_struct.json";
     $madlibs_fn         =   "madlibs.json";
-    $save_file_fn       =   "BPRE-save.json";
+    #$save_file_fn       =   "BPRE-save.json";
+    $save_file_fn       =   "Skyrim-Civil-War-save.json";
 
 
     $action_struct = json_decode(file_get_contents($action_struct_fn), TRUE);
     $madlibs = json_decode(file_get_contents($madlibs_fn), TRUE);
     $save_file = json_decode(file_get_contents($save_file_fn), TRUE);
+
 
     $GLOBALS['ngin'] = new NGINPHP( $action_struct, $madlibs, $save_file );
     $GLOBALS['ngin']->state->set_actor();

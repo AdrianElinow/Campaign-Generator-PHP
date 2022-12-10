@@ -78,6 +78,9 @@ available actions of this node
 - Antagonistic AI-controlled nodes
 	- Faction nodes will deploy resources to accomplish tasks
 	- POI and PTY nodes will act autonomously (Interacting, travelling, performing tasks, etc.)
+- NPC conversations / Interractions
+	- Recieve notifications and directives from Faction NPCs
+	- Talk about NPC opinions about events
 - Events and effects that make sense.
  	- Successful Surveil / Investigate tasks will reveal (if any) a random node previously unknown to the actor node.
 

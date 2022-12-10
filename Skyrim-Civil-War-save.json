@@ -1,5 +1,138 @@
 {
-    "FAC":{},
+    "FAC":{
+        "stormcloaks": {
+            "id": "stormcloaks",
+            "nodetype": "FAC",
+            "references": {
+                "name": "Stormcloak Rebellion"
+            },
+            "attributes": {
+                "capability_points": 400
+            },
+            "relations": {
+                "FAC": {},
+                "POI": {},
+                "PTY": {},
+                "INV": {},
+                "PPT": {
+                    "LOC": {},
+                    "OBJ": {}
+                }
+            },
+            "checks": {
+                "check1": true
+            },
+            "abilities": {},
+            "policies": {
+                "Economy": [
+                    "Capitalist",
+                    0.612
+                ],
+                "Liberty": [
+                    "Libertarian",
+                    0.508
+                ],
+                "Culture": [
+                    "Traditionalist",
+                    0.726
+                ],
+                "Diplomacy": [
+                    "Nationalist",
+                    0.873
+                ],
+                "Militancy": [
+                    "Militarist",
+                    0.756
+                ],
+                "Diversity": [
+                    "Homogenous",
+                    0.768
+                ],
+                "Secularity": [
+                    "Religious",
+                    0.874
+                ],
+                "Justice": [
+                    "Retributionist",
+                    0.702
+                ],
+                "Naturalism": [
+                    "Productivist",
+                    0.264
+                ],
+                "Government": [
+                    "Autocratic",
+                    0.783
+                ]
+            }
+        },
+        "legion": {
+            "id": "legion",
+            "nodetype": "FAC",
+            "references": {
+                "name": "Imperial Legion"
+            },
+            "attributes": {
+                "capability_points": 400
+            },
+            "relations": {
+                "FAC": {},
+                "POI": {},
+                "PTY": {},
+                "INV": {},
+                "PPT": {
+                    "LOC": {},
+                    "OBJ": {}
+                }
+            },
+            "checks": {
+                "check1": true
+            },
+            "abilities": {},
+            "policies": {
+                "Economy": [
+                    "Capitalist",
+                    0.612
+                ],
+                "Liberty": [
+                    "Statist",
+                    0.608
+                ],
+                "Culture": [
+                    "Progressive",
+                    0.526
+                ],
+                "Diplomacy": [
+                    "Diplomatic",
+                    0.873
+                ],
+                "Militancy": [
+                    "Strategic",
+                    0.756
+                ],
+                "Diversity": [
+                    "Multiculturalist",
+                    0.768
+                ],
+                "Secularity": [
+                    "Religious",
+                    0.674
+                ],
+                "Justice": [
+                    "Retributionist",
+                    0.802
+                ],
+                "Naturalism": [
+                    "Productivist",
+                    0.264
+                ],
+                "Government": [
+                    "Autocratic",
+                    0.783
+                ]
+            }
+        }
+    },
     "POI":{},
     "PTY":{},
     "LOC":{},
