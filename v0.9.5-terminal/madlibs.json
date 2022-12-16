@@ -90,19 +90,6 @@
         "Executive",
         "Admin",
         "Diesel"
-    ],
-    "policies":{
-        "Economy":          ["Communist", "Socialist", "Indifferent", "Capitalist", "Free-Capitalist"],
-        "Liberty":          ["Authoritarian", "Statist", "Indifferent", "Libertarian", "Anarchist"],
-        "Culture":          ["Traditionalist", "Conservative", "Indifferent", "Progressive", "Accelerationist"],
-        "Diplomacy":        ["Globalist", "Diplomatic", "Indifferent", "Patriotic", "Nationalist"],
-        "Militancy":        ["Militarist", "Strategic", "Indifferent", "Diplomatic", "Pacifist"],
-        "Diversity":        ["Homogenous", "Preservationist", "Indifferent", "Heterogeneous", "Multiculturalist"],
-        "Secularity":       ["Apostate", "Secularist", "Indifferent", "Religious", "Devout"],
-        "Justice":          ["Retributionist", "Punitive", "Indifferent", "Correctivist", "Rehabilitative"],
-        "Naturalism":  [    "Ecologist", "Naturalist", "Indifferent", "Productivist", "Industrialist"],
-        "Government":       ["Democratic", "Republican", "Indifferent", "Oligarchic", "Autocratic"]
-    }
-
+    ]
 
 }

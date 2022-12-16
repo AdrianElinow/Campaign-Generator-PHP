@@ -1,0 +1,172 @@
+
+
+{
+    "POI":{
+        "neutral":[
+            ["Protect","Overt",["+defense"],["-delete"]],
+            ["Liberate","Overt",["+control","%intel"],[]],
+            ["Escort","Overt",["+defense"],["-delete"]],
+
+            ["Interact","Passive",["+rand","%intel"],["-rand"]],
+            ["Recruit","Passive",["+control","%intel"],[]],
+
+            ["Eliminate","Overt",["+delete","%intel"],[]],
+            ["Capture","Overt",["+control","%intel"],[]],
+
+            ["Surveil","Covert",["+intel"],[]],
+            ["Investigate","Covert",["+intel"],[]]
+        ],
+        "master":[
+            ["Protect","Overt",["+defense"],["-delete"]],
+            ["Liberate","Overt",["+control","%intel"],[]],
+            ["Escort","Overt",["+defense"],["-delete"]],
+            
+            ["Interact","Passive",["+rand","%intel"],["-rand"]]
+        ],
+        "affiliate":[
+            ["Protect","Overt",["+defense"],["-delete"]],
+            ["Liberate","Overt",["+control"],[]],
+            ["Escort","Overt",["+defense"],["-delete"]],
+            
+            ["Interact","Passive",["+rand","%intel"],["-rand"]]
+        ],
+        "friendly":[
+            ["Protect","Overt",["+defense"],["-delete"]],
+            ["Liberate","Overt",["+control","%intel"],[]],
+            ["Escort","Overt",["+defense"],["-delete"]],
+            
+            ["Recruit","Passive",["+control"],[]],
+            ["Interact","Passive",["+rand","%intel"],["-rand"]]
+        ],
+        "hostile":[
+            ["Eliminate","Overt",["+delete"],[]],
+            ["Capture","Overt",["+control","%intel"],[]],
+
+            ["Interact","Passive",["+rand","%intel"],["-rand"]],
+
+            ["Surveil","Covert",["+intel"],[]],
+            ["Investigate","Covert",["+intel"],[]]
+        ]
+    },
+    "PTY":{
+        "neutral":[
+            ["Protect","Overt",["+defense"],["-delete"]],
+            ["Liberate","Overt",["+control","%intel"],[]],
+            ["Escort","Overt",["+defense"],["-delete"]],
+
+            ["Recruit","Passive",["+control"],[]],
+            ["Interact","Passive",["+rand","%intel"],["-rand"]],
+
+            ["Eliminate","Overt",["+delete","%intel"],[]],
+            ["Capture","Overt",["+control","%intel"],[]],
+
+            ["Infiltrate","Covert",["+intel"],[]],
+            ["Surveil","Covert",["+intel"],[]],
+            ["Investigate","Covert",["+intel"],[]]
+        ],
+        "master":[
+            ["Protect","Overt",["+defense"],["-delete"]],
+            ["Liberate","Overt",["+control","%intel"],[]],
+            ["Escort","Overt",["+defense"],["-delete"]],
+            
+            ["Interact","Passive",["+rand","%intel"],["-rand"]]
+        ],
+        "affiliate":[
+            ["Protect","Overt",["+defense"],["-delete"]],
+            ["Liberate","Overt",["+control","%intel"],[]],
+            ["Escort","Overt",["+defense"],["-delete"]],
+            
+            ["Interact","Passive",["+rand","%intel"],["-rand"]]
+        ],
+        "friendly":[
+            ["Protect","Overt",["+defense"],["-delete"]],
+            ["Liberate","Overt",["+control","%intel"],[]],
+            ["Escort","Overt",["+defense"],["-delete"]],
+            
+            ["Recruit","Passive",[],[]],
+            ["Interact","Passive",["+rand"],["-rand"]]
+        ],
+        "hostile":[
+            ["Eliminate","Overt",["+delete"],[]],
+            ["Capture","Overt",["+control","%intel"],[]],
+
+            ["Infiltrate","Covert",["+intel"],[]],
+            ["Surveil","Covert",["+intel"],[]],
+            ["Investigate","Covert",["+intel"],[]]
+        ]
+    },
+    "OBJ":{
+        "neutral":[
+            ["Protect","Overt",["+defense"],["-delete"]],
+            ["Secure","Overt",["+defense"],[]],
+
+            ["Interact","Passive",["+rand"],["-rand"]],
+            
+            ["Capture","Overt",["+control","%intel"],[]],
+            ["Destroy","Overt",["+delete"],[]],
+
+            ["Sabotage","Covert",["+intel"],[]],
+            ["Surveil","Covert",["+intel"],[]],
+            ["Investigate","Covert",["+intel"],[]]
+        ],
+        "master":[
+            ["Protect","Overt",["+defense"],["-delete"]],
+            ["Secure","Overt",["+defense"],[]],
+
+            ["Interact","Passive",["+rand"],["-rand"]]
+        ],
+        "affiliate":[
+            ["Protect","Overt",["+defense"],["-delete"]],
+            ["Secure","Overt",["+defense"],[]],
+
+            ["Interact","Passive",["+rand"],["-rand"]]
+        ],
+        "friendly":[
+            ["Protect","Overt",["+defense"],["-delete"]],
+            ["Secure","Overt",["+defense"],[]],
+
+            ["Interact","Passive",["+rand"],["-rand"]]
+        ],
+        "hostile":[
+            ["Capture","Overt",["+control","%intel"],[]],
+            ["Destroy","Overt",["+delete"],[]],
+
+            ["Sabotage","Covert",["+intel"],[]],
+            ["Surveil","Covert",["+intel"],[]],
+            ["Investigate","Covert",["+intel"],[]]
+        ]
+    },
+    "LOC":{
+        "neutral":[
+            ["Protect","Overt",["+defense"],["-delete"]],
+            ["Fortify","Passive",["+defense"],[]],
+
+            ["Capture","Overt",["+control","%intel"],[]],
+            ["Destroy","Overt",["+delete","-defense"],[]],
+
+            ["Infiltrate","Covert",["+intel","-defense"],[]],
+            ["Investigate","Covert",["+intel"],[]],
+            ["Surveil","Covert",["+intel"],[]]
+        ],
+        "master":[
+            ["Protect","Overt",["+defense"],["-delete"]],
+            ["Fortify","Passive",["+defense"],[]]
+        ],
+        "affiliate":[
+            ["Protect","Overt",["+defense"],["-delete"]],
+            ["Fortify","Passive",["+defense"],[]]
+        ],
+        "friendly":[
+            ["Protect","Overt",["+defense"],["-control"]],
+            ["Fortify","Passive",["+defense"],[]]
+        ],
+        "hostile":[
+            ["Capture","Overt",["+control","-defense"],[]],
+            ["Destroy","Overt",["+delete"],[]],
+
+            ["Infiltrate","Covert",["+intel","-defense"],[]],
+            ["Investigate","Covert",["+intel"],[]],
+            ["Surveil","Covert",["+intel"],[]]
+        ]
+    }
+}

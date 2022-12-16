@@ -1,4 +1,5 @@
 
+
 <?php
 
 $ngin;
@@ -37,12 +38,8 @@ class SimulaeState{
 
         if($GLOBALS["DEBUG"]){ echo "DEBUG{SimulaeState set_actor()}\n"; }
 
-        #$chosen = user_choice_array( "User choose avatar node:", array_values($this->FAC), $random_opt=true, $simulaenode_options=true );
-
         $this->actor = $GLOBALS["ngin"]->user_choice_array( "User choose avatar node:", array_values($this->FAC), $random_opt=false, $simulaenode_options=true );
 
-        #readline(">");
-    
     }
 
     function get_actor(){
@@ -164,9 +161,7 @@ class SimulaeNode{
         $this->policies = $policies;
         $this->abilities = $abilities;
 
-        if ($this->nodetype == "FAC" ) {
-            echo $this->attributes["capability_points"]."\n";
-        }
+        # if ($this->nodetype == "FAC" ) { echo $this->attributes["capability_points"]."\n"; }
         
     }
 
@@ -543,8 +538,10 @@ class SimulaeNode{
         if($this->policies == []){
             # but has a 'master' node:
             if($this->check('has_master')){
-                # adopt the 'master's policies as thine own.
-                $this->policies = $this->get_master()->get_policies();
+                # use the 'master's policies in this one's place
+                return $this->get_master()->get_policies();
+
+                #$this->policies = $this->get_master()->get_policies();
             }
         }
 
@@ -711,7 +708,15 @@ class NGINPHP{
             foreach( $nodes as $node_id => $json_node){
                 $this->add_node_json( $node_id, $nodetype, $json_node );
             }
-        
+        }
+
+        if( count(array_filter(
+            ["POI","PTY","OBJ","LOC"],
+            function($key) {
+                return count( $this->state->get_nodes($key) )>=1;
+            })) == 0 ){
+            echo "No entities in save file.\n";
+            exit;
         }
 
     }
@@ -864,34 +869,34 @@ class NGINPHP{
         if( in_array($nodetype, ["FAC","POI","PTY"])){
             $policy = [
                 "Economy" => [
-                    random_choice($this->madlibs["policies"]["Economy"]),
+                    random_choice(["Communist", "Socialist", "Indifferent", "Capitalist", "Free-Capitalist"]),
                     (rand(0,1000)/1000)],
                 "Liberty" => [
-                    random_choice($this->madlibs["policies"]["Liberty"]),
+                    random_choice(["Authoritarian", "Statist", "Indifferent", "Libertarian", "Anarchist"]),
                     (rand(0,1000)/1000)],
                 "Culture" => [
-                    random_choice($this->madlibs["policies"]["Culture"]),
+                    random_choice(["Traditionalist", "Conservative", "Indifferent", "Progressive", "Accelerationist"]),
                     (rand(0,1000)/1000)],
                 "Diplomacy" => [
-                    random_choice($this->madlibs["policies"]["Diplomacy"]),
+                    random_choice(["Globalist", "Diplomatic", "Indifferent", "Patriotic", "Nationalist"]),
                     (rand(0,1000)/1000)],
                 "Militancy" => [
-                    random_choice($this->madlibs["policies"]["Militancy"]),
+                    random_choice(["Militarist", "Strategic", "Indifferent", "Diplomatic", "Pacifist"]),
                     (rand(0,1000)/1000)],
                 "Diversity" => [
-                    random_choice($this->madlibs["policies"]["Diversity"]),
+                    random_choice(["Homogenous", "Preservationist", "Indifferent", "Heterogeneous", "Multiculturalist"]),
                     (rand(0,1000)/1000)],
                 "Secularity" => [
-                    random_choice($this->madlibs["policies"]["Secularity"]),
+                    random_choice(["Apostate", "Secularist", "Indifferent", "Religious", "Devout"]),
                     (rand(0,1000)/1000)],
                 "Justice" => [
-                    random_choice($this->madlibs["policies"]["Justice"]),
+                    random_choice(["Retributionist", "Punitive", "Indifferent", "Correctivist", "Rehabilitative"]),
                     (rand(0,1000)/1000)],
                 "Naturalism" => [
-                    random_choice($this->madlibs["policies"]["Naturalism"]),
+                    random_choice([    "Ecologist", "Naturalist", "Indifferent", "Productivist", "Industrialist"]),
                     (rand(0,1000)/1000)],
                 "Government" => [
-                    random_choice($this->madlibs["policies"]["Government"]),
+                    random_choice(["Democratic", "Republican", "Indifferent", "Oligarchic", "Autocratic"]),
                     (rand(0,1000)/1000)],
             ];
         }
@@ -951,15 +956,17 @@ class NGINPHP{
             # element)
             $nodetype = random_choice( array_filter(
                 ["POI","PTY","OBJ","LOC"],
-                function($key) {
-                    return count( $this->state->get_nodes($key) )>=1;
-                }
-            ));
+                    function($key) {
+                        return count( $this->state->get_nodes($key) )>=1;
+                    }
+                ));
+
 
             # randomly pick from available nodes
             $chosen_node = random_choice( 
                 array_values($this->state->get_nodes($nodetype) ));
 
+        
             # ascertain node alliegance/control -> get disposition for relevant action type ('friendly','hostile','neutral')
             $relation = $chosen_node->get_relation($actor_node->get_id(), $actor_node->get_nodetype());
 
@@ -1346,7 +1353,7 @@ function random_choice(array $items){
     /* randomly selects an element from a given array */
 
     if( is_null($items) or $items == [] ){
-        throw new Exception("random_choice() Nothing in $items");
+        throw new Exception("random_choice() Nothing in \$items");
         return;
     }
     return $items[ array_rand($items) ];
@@ -1363,14 +1370,12 @@ function main(){
 
     $action_struct_fn   =   "story_struct.json";
     $madlibs_fn         =   "madlibs.json";
-    #$save_file_fn       =   "BPRE-save.json";
-    $save_file_fn       =   "Skyrim-Civil-War-save.json";
-
+    $save_file_fn       =   "BPRE-save.json";  
+    
 
     $action_struct = json_decode(file_get_contents($action_struct_fn), TRUE);
     $madlibs = json_decode(file_get_contents($madlibs_fn), TRUE);
     $save_file = json_decode(file_get_contents($save_file_fn), TRUE);
-
 
     $GLOBALS['ngin'] = new NGINPHP( $action_struct, $madlibs, $save_file );
     $GLOBALS['ngin']->state->set_actor();
@@ -1389,7 +1394,16 @@ function main(){
 
 }
 
-main()
-
 ?>
 
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title></title>
+</head>
+<body>
+    content
+</body>
+</html>

@@ -2,9 +2,12 @@
 Campaign Generator ported to PHP for webpage-integration
 
 Intended for open-ended use in constructing dynamic narratives based on conflicting factions, individuals, and groups. Completed Version 1 will function as such:
-- user-chosen and controlled faction presented with a variety of actionable options, allowing the user to choose where to conduct a mission.
-- Each mission allows the allocation of capability points, which roughly correspond to the resources that one assigns to the chosen mission, which affects mission success rate.
-- Resources are supplied by the locations / objectives that a given faction holds. The higher-level locations/objectives yield more resources
+
+ - Rudementary UI
+ 	- Docker, NGINX, PHP-FPM, and Bootstrap
+ - User-chosen and controlled faction presented with a variety of actionable options, allowing the user to choose where to conduct a mission.
+ - Each mission allows the allocation of capability points, which roughly correspond to the resources that one assigns to the chosen mission, which affects mission success rate.
+ - Resources are supplied by the locations / objectives that a given faction holds. The higher-level locations/objectives yield more resources
 
 # SimulaeNode
 
@@ -78,9 +81,15 @@ available actions of this node
 - Antagonistic AI-controlled nodes
 	- Faction nodes will deploy resources to accomplish tasks
 	- POI and PTY nodes will act autonomously (Interacting, travelling, performing tasks, etc.)
+- Random Encounters
+- Loot tables (in madlibs)
 - NPC conversations / Interractions
 	- Recieve notifications and directives from Faction NPCs
 	- Talk about NPC opinions about events
+- Information visibility mechanic
+	- Entities may or may not be aware of the elements or information of others.
+	- NPCs must perform intelligence gathering actions to access the information
+		- Intelligence gathering includes conversation, recon, spying, etc.
 - Events and effects that make sense.
  	- Successful Surveil / Investigate tasks will reveal (if any) a random node previously unknown to the actor node.
 
